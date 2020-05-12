@@ -2,7 +2,7 @@
 
 Aplicación flask para gestionar juegos retro.
 
-dentro de `static` deben existir ficheros json con la información de los juegos, con el nombre del sistema en mayúsculas, po ejemplo, `MSX.json`, con la siguiente estructura:
+Dentro de `static` deben existir ficheros json con la información de los juegos, con el nombre del sistema en mayúsculas, po ejemplo, `MSX.json`, con la siguiente estructura:
 
     [
         {
