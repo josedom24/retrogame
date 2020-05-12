@@ -69,7 +69,11 @@
                 <h4 class="card-title">{{game.nombre}}</h4>
                 <p class="card-text">{{game.categoria}} - {{game.año}}</p>
                 <p class="card-text"><small>{{game.desarrollador}} - {{game.distribuidor}}</p></small>
-                <a href="/webmsx/{{sistema}}/{{game.id}}" class="btn btn-primary">Jugar</a>
+                {% if sistema=="mame"%}
+                <a href="/juego/{{sistema}}/{{game.id}}{{url}}" class="btn btn-primary">Jugar</a>
+                {%else%}
+                  <a href="/webmsx/{{sistema}}/{{game.id}}" class="btn btn-primary">Jugar</a>
+                {%endif%}
               </div>
             </div>
           </div>

@@ -36,7 +36,6 @@ def webmsx(sistema,id):
     datos=allDatos(sistema.upper(),filtro)
     
     game=getGame(datos,id,"id")
-    print(game)
     if len(game)==0:
         abort(404)
     if game[0]["files"][0].lower().endswith(".dsk"):
@@ -46,11 +45,22 @@ def webmsx(sistema,id):
     if game[0]["files"][0].lower().endswith(".cas"):
         tipo="cas"
     return render_template('webmsx.html',game=game[0],tipo=tipo)
+
+@app.route('/juego/mame/<id>/<path:ruta>')
+def mame(id,ruta):
+    filtro={'sistema': "MAME"}
+    datos=allDatos("MAME",filtro)
+    game=getGame(datos,id,"id")
+    if len(game)==0:
+        abort(404)
+    os.system('mame "'+game[0]["files"][0]+'"')
+    return redirect("/"+ruta)
+
 app.run("0.0.0.0",debug=True)
     
 
 
-#def msx():
+#def msx(): 
 #    form = SignupForm()
 #
 #    if form.validate_on_submit():

@@ -49,6 +49,30 @@
         </div>
       </div>
     </div>
+    
+    <div class="album py-5 bg-light">
+      <div class="container">
+  
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <a href="{{url_for('juegos',sistema='mame',ruta='')}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/mame.png')}}"/></a>      
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              <a href="{{url_for('juegos',sistema='msx2',ruta='')}}"><img class="img-thumbnail" src=""/></a>      
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="img-thumbnail"  src=""/>      
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  
   </div>
 
 {%- endblock %}
