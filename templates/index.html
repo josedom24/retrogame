@@ -1,0 +1,54 @@
+{# This simple template derives from ``base.html``. See ``base.html`` for
+   more information about template inheritance. #}
+{%- extends "base.html" %}
+
+{# Loads some of the macros included with Flask-Bootstrap. We are using the
+   utils module here to automatically render Flask's flashed messages in a
+   bootstrap friendly manner #}
+{% import "bootstrap/utils.html" as utils %}
+
+
+{# Inside the ``content`` is where you should place most of your own stuff.
+   This will keep scripts at the page end and a navbar you add on later
+   intact. #}
+{% block content %}
+  <div class="container">
+  {%- with messages = get_flashed_messages(with_categories=True) %}
+  {%- if messages %}
+    <div class="row">
+      <div class="col-md-12">
+        {{utils.flashed_messages(messages)}}
+      </div>
+    </div>
+  {%- endif %}
+  {%- endwith %}
+    <div class="jumbotron">
+      <h1>RetroGAMES</h1>
+      <p>Base de datos personal de juegos retro...</p>
+      
+    </div>
+   </div>
+   <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+              <a href="{{url_for('juegos',sistema='msx',ruta='')}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/msx.png')}}"/></a>      
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <a href="{{url_for('juegos',sistema='msx2',ruta='')}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/msx2.jpg')}}"/></a>      
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+              <img class="img-thumbnail"  src="{{url_for('static', filename='img/amiga.png')}}"/>      
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{%- endblock %}

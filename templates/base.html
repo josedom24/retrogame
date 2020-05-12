@@ -1,0 +1,70 @@
+{# ``base.html`` is the template all our other templates derive from. While
+   Flask-Bootstrap ships with its own base, it is good form to create a custom
+   one for our app, as it allows customizing some aspects.
+
+   Deriving from bootstap/base.html gives us a basic page scaffoling.
+
+   You can find additional information about template inheritance at
+
+   http://jinja.pocoo.org/docs/templates/#template-inheritance
+#}
+{%- extends "bootstrap/base.html" %}
+
+{# We also set a default title, usually because we might forget to set one.
+   In our sample app, we will most likely just opt not to change it #}
+{% block title %}retroGames{% endblock %}
+
+
+{# Then, inside the head block, we apply these. To not replace the header,
+   ``super()`` is used: #}
+{% block head %}
+{{super()}}
+
+
+
+{%- endblock %}
+
+{# Adding our own CSS files is also done here. Check the documentation at
+   http://pythonhosted.org/Flask-Bootstrap/basic-usage.html#available-blocks
+   for an overview. #}
+{% block styles -%}
+    {{super()}}  {# do not forget to call super or Bootstrap's own stylesheets
+                    will disappear! #}
+    <link rel="stylesheet" type="text/css"
+          href="{{url_for('static', filename='sample-app.css')}}">
+   
+{% endblock %}
+
+{# Finally, round things out with navigation #}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+   <a class="navbar-brand" href="{{ url_for('index') }}">retroGames</a>
+   <button class="navbar-toggler" type="button" data-toggle="collapse" 
+      data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" 
+        aria-expanded="false" aria-label="Toggle navigation">
+     <span class="navbar-toggler-icon"></span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarNavDropdown">
+     <ul class="navbar-nav">
+       <li class="nav-item">
+         <a class="nav-link" href="{{ url_for('index') }}">Home <span 
+           class="sr-only">(current)</span></a>
+       </li>
+       
+       <li class="nav-item dropdown">
+         <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           Sistema
+         </a>
+         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+           <a class="dropdown-item" href="{{url_for('juegos',sistema='msx',ruta='')}}">MSX</a>
+           <a class="dropdown-item" href="{{url_for('juegos',sistema='msx2',ruta='')}}">MSX2</a>
+           <a class="dropdown-item" href="{{url_for('index')}}">Amiga</a>
+           
+         </div>
+       </li>
+     </ul>
+   </div>
+ </nav>
+
+
+{% endblock %}

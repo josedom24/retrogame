@@ -1,0 +1,88 @@
+{# This simple template derives from ``base.html``. See ``base.html`` for
+   more information about template inheritance. #}
+{%- extends "base.html" %}
+{% block title %}
+  retroGames - {{sistema.upper()}}
+{% endblock%}
+
+{# Inside the ``content`` is where you should place most of your own stuff.
+   This will keep scripts at the page end and a navbar you add on later
+   intact. #}
+{% block content %}
+  <div class="container">
+  {%- with messages = get_flashed_messages(with_categories=True) %}
+  {%- if messages %}
+    <div class="row">
+      <div class="col-md-12">
+        {{utils.flashed_messages(messages)}}
+      </div>
+    </div>
+  {%- endif %}
+  {%- endwith %}
+  <div class="d-flex align-items-center p-3 my-3  bg-purple rounded shadow-sm">
+    <div class="lh-100">
+      <h2 class="mb-0 lh-100">Juegos {{sistema.upper()}}</h2>
+      <small>RetroGAMES</small>
+    </div>
+  </div>
+<div class="container">
+    
+    <div class="row">
+
+      <ul class="nav nav-tabs">
+        {%for campo,valores in busqueda.items()%}
+        <li class="nav-item dropdown">
+          {% if campo in filtro%}
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{filtro[campo]}}</a>
+          {%else%}
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{campo.title()}}</a>
+          {%endif%}
+        
+          <div class="dropdown-menu">
+            {% for valor in valores %}
+            {% if filtro[campo]==valor %}
+            <a class="dropdown-item active" href="{{url}}{{campo}}/{{valor}}">{{valor}}</a>
+            {%else%}
+            <a class="dropdown-item" href="{{url}}{{campo}}/{{valor}}">{{valor}}</a>
+            {%endif%}
+            {%endfor%}
+          </div>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+</div>
+      <br/><br/>
+      <div class="container">
+        {% for datos_row in datos  | batch(3, '&nbsp;') %}
+        <div class="row">
+          {% for game in datos_row %}
+          {% if game.nombre %}
+          <div class="col">
+            <div class="card" style="width: 18rem;">
+              {% if game.image!="" %}
+              <img src="{{url_for('static',filename=game.image)}}" class="card-img-top" alt="...">
+              {%else%}
+              <img src="{{url_for('static',filename='img/sin.jpg')}}" class="card-img-top" alt="...">
+              {%endif%}
+              <div class="card-body">
+                <h4 class="card-title">{{game.nombre}}</h4>
+                <p class="card-text">{{game.categoria}} - {{game.año}}</p>
+                <p class="card-text"><small>{{game.desarrollador}} - {{game.distribuidor}}</p></small>
+                <a href="/webmsx/{{sistema}}/{{game.id}}" class="btn btn-primary">Jugar</a>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="col"></div>
+          {% endif %}
+          {% endfor%}
+        </div>
+        {% endfor %}
+      </div>
+
+
+      
+   </div>
+      
+{%- endblock %}
