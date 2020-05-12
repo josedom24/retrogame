@@ -17,7 +17,7 @@ dentro de `static` deben existir ficheros json con la información de los juegos
         ...
     ]
 
-En `static` debe haber un enlace simbólico llamado `Games` a puntando al directorio donde están los juegos. Este directorio tendrá la siguiente estructura:
+En `static` debe haber un enlace simbólico llamado `Games` apuntando al directorio donde están los juegos. Este directorio tendrá la siguiente estructura:
 
     MSX
         A
