@@ -61,7 +61,9 @@
           <div class="col">
             <div class="card" style="width: 18rem;">
               {% if game.image!="" %}
+              
               <img src="{{url_for('static',filename=game.image)}}" class="card-img-top" alt="...">
+            
               {%else%}
               <img src="{{url_for('static',filename='img/sin.jpg')}}" class="card-img-top" alt="...">
               {%endif%}
@@ -74,6 +76,9 @@
                 {%else%}
                   <a href="/webmsx/{{sistema}}/{{game.id}}" class="btn btn-primary">Jugar</a>
                 {%endif%}
+                {%for file in game.files%}
+                <a download href="{{url_for('static',filename=file)}}" class="btn btn-primary">Descargar </a>
+                {%endfor%}
               </div>
             </div>
           </div>
