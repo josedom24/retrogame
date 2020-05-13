@@ -28,3 +28,18 @@ En `static` debe haber un enlace simbólico llamado `Games` apuntando al directo
         B
         ...
     ...
+
+Para MAME:
+
+    MAME
+        A
+            <Nombre del juego>
+                Fichero de imagen (jpg,png,...)
+            ...
+        B
+        ...
+    ...
+
+    MAMEROMS: Con todos los ficheros zip de las ROMS de MAME.
+
+Hace falta configurar MAME para indicar otro direcorio de ROMS, que será `.../Games/MAMEROMS`.
