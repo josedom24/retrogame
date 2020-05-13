@@ -53,7 +53,7 @@ def mame(id,ruta):
     game=getGame(datos,id,"id")
     if len(game)==0:
         abort(404)
-    os.system('mame "'+game[0]["files"][0]+'"')
+    os.system('mame "'+game[0]["file"]+'"')
     return redirect("/"+ruta)
 
 app.run("0.0.0.0",debug=True)
