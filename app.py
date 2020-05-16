@@ -62,14 +62,29 @@ def webmsx(sistema,id):
         tipo="cas"
     return render_template('webmsx.html',game=game[0],tipo=tipo)
 
-@app.route('/juego/mame/<id>/<path:ruta>')
-def mame(id,ruta):
-    filtro={'sistema': "MAME"}
-    datos=allDatos("MAME",filtro)
+@app.route('/juego/<sistema>/<id>/<path:ruta>')
+def mame(id,sistema,ruta):
+    filtro={'sistema': sistema.upper()}
+    datos=allDatos(sistema.upper(),filtro)
     game=getGame(datos,id,"id")
     if len(game)==0:
         abort(404)
-    os.system('mame "'+game[0]["rom"]+'"')
+    if sistema=="mame":
+        os.system('mame "'+game[0]["rom"]+'"')
+    if sistema=="amiga":
+        floppy=""
+        image=""
+        cont_floppy=0
+        cont_image=0
+        for fich in game[0]["files"]:
+            fich=os.path.join(os.path.abspath(os.path.dirname(__file__)),"static/"+fich)
+            if fich.endswith(".zip"):
+                if cont_floppy<4:
+                    floppy=floppy+" --floppy_drive_"+str(cont_floppy)+"='"+fich+"'"
+                image=image+" --image_drive_"+str(cont_image)+"='"+fich+"'"
+                cont_floppy=+1
+                cont_image=+1
+        os.system('fs-uae --fullscreen '+floppy+' '+image)
     return redirect("/"+ruta)
 
 app.run("0.0.0.0",debug=True)
