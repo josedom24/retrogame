@@ -81,9 +81,9 @@ def mame(id,sistema,ruta):
             if fich.endswith(".zip"):
                 if cont_floppy<4:
                     floppy=floppy+" --floppy_drive_"+str(cont_floppy)+"='"+fich+"'"
-                image=image+" --image_drive_"+str(cont_image)+"='"+fich+"'"
-                cont_floppy=+1
-                cont_image=+1
+                image=image+" --floppy_image_"+str(cont_image)+"='"+fich+"'"
+                cont_floppy=cont_floppy+1
+                cont_image=cont_image+1
         os.system('fs-uae --fullscreen '+floppy+' '+image)
     return redirect("/"+ruta)
 
