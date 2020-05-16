@@ -76,13 +76,9 @@
                 {%else%}
                   <a href="/webmsx/{{sistema}}/{{game.id}}" class="btn btn-primary">Jugar</a>
                 {%endif%}
-                {%for file in game.files%}
-                <a href="{{url_for('static',filename=file)}}" class="btn btn-primary">Descargar </a>
-                {%endfor%}
-                <!-- if mame-->
-                {%if game.file%}
-                <a href="{{url_for('static',filename='Games/MAMEROMS/'+game.file)}}" class="btn btn-primary">Descargar </a>
-                {%endif%}
+                <a href="{{url_for('descarga',sistema=game.sistema,ruta=url,id=game.id)}}" class="btn btn-primary">Detalles </a>
+                
+                
               </div>
             </div>
           </div>

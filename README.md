@@ -16,6 +16,7 @@ Dentro de `static` deben existir ficheros json con la información de los juegos
         },
         ...
     ]
+El fichero `MAME.json` tiene un campo "rom" con el nombre del fichero zip.
 
 En `static` debe haber un enlace simbólico llamado `Games` apuntando al directorio donde están los juegos. Este directorio tendrá la siguiente estructura:
 
@@ -42,4 +43,4 @@ Para MAME:
 
     MAMEROMS: Con todos los ficheros zip de las ROMS de MAME.
 
-Hace falta configurar MAME para indicar otro direcorio de ROMS, que será `.../Games/MAMEROMS`.
+Hace falta configurar MAME para indicar otro direcorio de ROMS, que será `.../Games/MAMEROMS`.  

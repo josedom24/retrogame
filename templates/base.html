@@ -56,11 +56,9 @@
            Sistema
          </a>
          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-           <a class="dropdown-item" href="{{url_for('juegos',sistema='msx',ruta='')}}">MSX</a>
-           <a class="dropdown-item" href="{{url_for('juegos',sistema='msx2',ruta='')}}">MSX2</a>
-           <a class="dropdown-item" href="{{url_for('index')}}">Amiga</a>
-           <a class="dropdown-item" href="{{url_for('juegos',sistema='mame',ruta='')}}">MAME</a>
-           
+           {% for sistema in config.SISTEMAS%}
+           <a class="dropdown-item" href="{{url_for('juegos',sistema=sistema.sistema,ruta='')}}">{{sistema.sistema.upper()}}</a>
+           {%endfor%}
          </div>
        </li>
      </ul>

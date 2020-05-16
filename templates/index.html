@@ -28,51 +28,28 @@
       
     </div>
    </div>
-   <div class="album py-5 bg-light">
-    <div class="container">
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-              <a href="{{url_for('juegos',sistema='msx',ruta='')}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/msx.png')}}"/></a>      
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <a href="{{url_for('juegos',sistema='msx2',ruta='')}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/msx2.jpg')}}"/></a>      
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-              <img class="img-thumbnail"  src="{{url_for('static', filename='img/amiga.png')}}"/>      
-          </div>
-        </div>
-      </div>
-    </div>
-    
+   
+   {% for sistemas in config.SISTEMAS | batch(3, '&nbsp;') %}
     <div class="album py-5 bg-light">
       <div class="container">
-  
-        <div class="row">
+       <div class="row">
+        {%for sist in sistemas%} 
+        {%if sist.sistema%}
+        
+        
           <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <a href="{{url_for('juegos',sistema='mame',ruta='')}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/mame.png')}}"/></a>      
+                <a href="{{url_for('juegos',sistema=sist.sistema,ruta='')}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/'+sist.image)}}"/></a>      
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-              <a href="{{url_for('juegos',sistema='msx2',ruta='')}}"><img class="img-thumbnail" src=""/></a>      
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                <img class="img-thumbnail"  src=""/>      
-            </div>
-          </div>
-        </div>
+          </div>   
+          {%endif%}
+        {%endfor%}  
       </div>
+        
   
   
   </div>
+  </div>
+  {%endfor%}
 
 {%- endblock %}

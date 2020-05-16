@@ -8,6 +8,11 @@ from funciones import *
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SISTEMAS']=[{"sistema":"msx","image":"msx.png"},
+{"sistema":"msx2","image":"msx2.jpg"},
+{"sistema":"mame","image":"mame.png"},
+{"sistema":"amiga","image":"amiga.png"},
+]
 Bootstrap(app)
 
 # Our index-page just shows a quick explanation. Check out the template
@@ -29,6 +34,17 @@ def juegos(sistema,ruta=""):
     busqueda=getDatos(datos)
     #print(getDatos(getGame(datos,"Racing","categoria"),"desarrollador"))
     return render_template('juegos.html',sistema=sistema,datos=datos,busqueda=busqueda,filtro=filtro,url=getRuta(filtro))
+
+@app.route('/descargar/<sistema>/<id>/<path:ruta>')
+def descarga(sistema,id,ruta):
+    filtro={'sistema': sistema}
+    datos=allDatos(sistema.upper(),filtro)
+    
+    game=getGame(datos,id,"id")
+    if len(game)==0:
+        abort(404)
+    return render_template('descargar.html',game=game[0],ruta=ruta)
+
 
 @app.route('/webmsx/<sistema>/<id>')
 def webmsx(sistema,id):
@@ -53,7 +69,7 @@ def mame(id,ruta):
     game=getGame(datos,id,"id")
     if len(game)==0:
         abort(404)
-    os.system('mame "'+game[0]["file"]+'"')
+    os.system('mame "'+game[0]["rom"]+'"')
     return redirect("/"+ruta)
 
 app.run("0.0.0.0",debug=True)
