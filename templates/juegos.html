@@ -10,19 +10,24 @@
    intact. #}
 {% block content %}
   <div class="container">
-  {%- with messages = get_flashed_messages(with_categories=True) %}
-  {%- if messages %}
-    <div class="row">
-      <div class="col-md-12">
-        {{utils.flashed_messages(messages)}}
-      </div>
-    </div>
-  {%- endif %}
-  {%- endwith %}
+  
   <div class="d-flex align-items-center p-3 my-3  bg-purple rounded shadow-sm">
+    <div class="row">
     <div class="lh-100">
-      <h2 class="mb-0 lh-100">Juegos {{sistema.upper()}}</h2>
+      
+      {% if sistema=="todos" %}
+        <h2 class="mb-0 lh-100">Todos los Juegos</h2>
+      {%else%}
+        <h2 class="mb-0 lh-100">Juegos {{sistema.upper()}}</h2>
+      {%endif%}
       <small>RetroGAMES</small>
+      
+    </div>
+    <div class="col" style="padding-left: 100px">
+      {% for sist in config.SISTEMAS%}
+      <a href="{{url_for('juegos',sistema=sist.sistema,ruta='')}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist.sistema+'.png')}}"/></a>      
+      {% endfor %}
+    </div>
     </div>
   </div>
 <div class="container">
@@ -69,15 +74,11 @@
               {%endif%}
               <div class="card-body">
                 <h4 class="card-title">{{game.nombre}}</h4>
+                <img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.sistema.lower()+'.png')}}" class="card-img" alt="...">
                 <p class="card-text">{{game.categoria}} - {{game.año}}</p>
                 <p class="card-text"><small>{{game.desarrollador}} - {{game.distribuidor}}</p></small>
-                {% if sistema=="mame" or sistema=="amiga"%}
-                <a href="/juego/{{sistema}}/{{game.id}}{{url}}" class="btn btn-primary">Jugar</a>
-                {%endif%}
-                {% if sistema=="msx" or sistema=="msx2" %}
-                  <a href="/webmsx/{{sistema}}/{{game.id}}" class="btn btn-primary">Jugar</a>
-                {%endif%}
-                <a href="{{url_for('descarga',sistema=game.sistema,ruta=url,id=game.id)}}" class="btn btn-primary">Detalles </a>
+                <a href="{{url_for('juega',sistema=game.sistema.lower(),ruta=url[1:],id=game.id)}}" class="btn btn-primary">Jugar </a>
+                <a href="{{url_for('descarga',sistema=game.sistema.lower(),ruta=url[1:],id=game.id)}}" class="btn btn-primary">Detalles </a>
                 
                 
               </div>

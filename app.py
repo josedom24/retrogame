@@ -8,10 +8,11 @@ from funciones import *
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SISTEMAS']=[{"sistema":"msx","image":"msx.png"},
-{"sistema":"msx2","image":"msx2.jpg"},
-{"sistema":"mame","image":"mame.png"},
-{"sistema":"amiga","image":"amiga.png"},
+app.config['SISTEMAS']=[{"sistema":"todos"},
+{"sistema":"msx"},
+{"sistema":"msx2"},
+{"sistema":"mame"},
+{"sistema":"amiga"},
 ]
 Bootstrap(app)
 
@@ -29,7 +30,13 @@ def juegos(sistema,ruta=""):
     filtro,redireccionar=getFiltro(sistema,ruta)    
     if redireccionar:
         return redirect(getRuta(filtro))
-    datos=allDatos(sistema.upper(),filtro)
+    if sistema=="todos":
+        datos=[]
+        for sist in app.config["SISTEMAS"][1:]:
+            datos.extend(allDatos(sist["sistema"].upper(),filtro))
+        datos=sorted(datos, key=itemgetter('nombre'))
+    else:
+        datos=allDatos(sistema.upper(),filtro)
     
     busqueda=getDatos(datos)
     #print(getDatos(getGame(datos,"Racing","categoria"),"desarrollador"))
@@ -46,31 +53,27 @@ def descarga(sistema,id,ruta):
     return render_template('descargar.html',game=game[0],ruta=ruta)
 
 
-@app.route('/webmsx/<sistema>/<id>')
-def webmsx(sistema,id):
-    filtro={'sistema': sistema}
-    datos=allDatos(sistema.upper(),filtro)
-    
-    game=getGame(datos,id,"id")
-    if len(game)==0:
-        abort(404)
-    if game[0]["files"][0].lower().endswith(".dsk"):
-        tipo="dsk"
-    if game[0]["files"][0].lower().endswith(".rom"):
-        tipo="rom"
-    if game[0]["files"][0].lower().endswith(".cas"):
-        tipo="cas"
-    return render_template('webmsx.html',game=game[0],tipo=tipo)
-
-@app.route('/juego/<sistema>/<id>/<path:ruta>')
-def mame(id,sistema,ruta):
+@app.route('/jugar/<sistema>/<id>/<path:ruta>')
+def juega(id,sistema,ruta):
     filtro={'sistema': sistema.upper()}
     datos=allDatos(sistema.upper(),filtro)
     game=getGame(datos,id,"id")
     if len(game)==0:
         abort(404)
+
+    if sistema=="msx" or sistema=="msx2":
+        if len(game)==0:
+            abort(404)
+        if game[0]["files"][0].lower().endswith(".dsk"):
+            tipo="dsk"
+        if game[0]["files"][0].lower().endswith(".rom"):
+            tipo="rom"
+        if game[0]["files"][0].lower().endswith(".cas"):
+            tipo="cas"
+        return render_template('webmsx.html',game=game[0],tipo=tipo)
     if sistema=="mame":
         os.system('mame "'+game[0]["rom"]+'"')
+        return redirect("/"+ruta)
     if sistema=="amiga":
         floppy=""
         image=""
@@ -85,25 +88,8 @@ def mame(id,sistema,ruta):
                 cont_floppy=cont_floppy+1
                 cont_image=cont_image+1
         os.system('fs-uae --fullscreen '+floppy+' '+image)
-    return redirect("/"+ruta)
+        return redirect("/"+ruta)
 
 app.run("0.0.0.0",debug=True)
     
 
-
-#def msx(): 
-#    form = SignupForm()
-#
-#    if form.validate_on_submit():
-#        # We don't have anything fancy in our application, so we are just
-#        # flashing a message when a user completes the form successfully.
-#        #
-#        # Note that the default flashed messages rendering allows HTML, so
-#        # we need to escape things if we input user values:
-#        flash('Hello, {}. You have successfully signed up'
-#              .format(escape(form.name.data)))
-#
-#        # In a real application, you may wish to avoid this tedious redirect.
-#        return redirect(url_for('.index'))
-#
-#    return render_template('signup.html', form=form)

@@ -75,6 +75,8 @@ def allDatos(nombre,filtro):
                 except:
                     if str(g.get(campo))==str(valor):
                         cont=cont+1
+                if campo=="sistema" and valor=="todos":
+                    cont=cont+1
         if cont==len(filtro):
             games.append(g)
 

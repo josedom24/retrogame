@@ -39,7 +39,7 @@
         
           <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <a href="{{url_for('juegos',sistema=sist.sistema,ruta='')}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/'+sist.image)}}"/></a>      
+                <a href="{{url_for('juegos',sistema=sist.sistema,ruta='')}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/'+sist.sistema+'.png')}}"/></a>      
             </div>
           </div>   
           {%endif%}
