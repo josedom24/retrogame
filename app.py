@@ -1,8 +1,8 @@
 import os
-from flask import Flask, render_template, flash, redirect, url_for, abort
+from flask import Flask, render_template, flash, redirect, url_for, abort, request
 from markupsafe import escape
 from flask_bootstrap import Bootstrap
-from forms import SignupForm
+from forms import GamesForm
 from funciones import *
 
 app = Flask(__name__)
@@ -94,6 +94,28 @@ def juega(id,sistema,ruta):
                 cont_image=cont_image+1
         os.system('fs-uae --fullscreen '+floppy+' '+image)
         return redirect("/"+ruta)
+
+@app.route('/add/<sistema>',methods=['GET','POST'])
+def addGame(sistema):
+    datos=LeerDatos(sistema.upper())
+    print(sorted(map(int,getDato(datos,"id")))[-1])
+    form=GamesForm(request.form)
+    form.sistema.data=sistema.upper()
+    if form.validate_on_submit():
+        datos=LeerDatos(sistema.upper())
+        form.id.data=sorted(map(int,getDato(datos,"id")))[-1]+1
+        del form.submit
+        del form.csrf_token
+        if sistema!='mame':
+            del form.rom
+        datos.append(form.data)
+        GuardarDatos(sistema.upper(),datos)
+        print(datos)
+        return redirect("/sistema/"+sistema)
+        
+    else:
+        return render_template("addGames.html",form=form,sistema=sistema)	
+
 
 app.run("0.0.0.0",debug=True)
     

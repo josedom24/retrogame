@@ -1,0 +1,69 @@
+{# This simple template derives from ``base.html``. See ``base.html`` for
+   more information about template inheritance. #}
+{%- extends "base.html" %}
+{% block title %}
+  retroGames - {{sistema.upper()}}
+{% endblock%}
+
+{# Inside the ``content`` is where you should place most of your own stuff.
+   This will keep scripts at the page end and a navbar you add on later
+   intact. #}
+{% block content %}
+  <div class="container">
+  
+  <div class="d-flex align-items-center p-3 my-3  bg-purple rounded shadow-sm">
+    <div class="row">
+    <div class="lh-100">
+        <h2 class="mb-0 lh-100">Juegos {{sistema.upper()}}</h2>
+      
+      <small>RetroGAMES</small>
+      
+    </div>
+    
+    </div>
+  </div>
+<div class="container">
+    
+    <div class="row">
+
+      <form class="form-horizontal" method="post">
+        <div class="form-group">
+          {{ form.csrf_token }}
+          {{form.nombre.label() }}{{form.nombre(size="100",class="form-control")}}<br/>
+        </div>
+        <div class="form-group">
+          {{form.sistema.label() }}{{form.sistema(class="form-control")}}<br/>
+        </div>
+        
+        <div class="form-group">
+          {{form.desarrollador.label() }}{{form.desarrollador(size="30",class="form-control")}}<br/>
+        </div>
+        <div class="form-group">
+          {{form.distribuidor.label() }}{{form.distribuidor(size="30",class="form-control")}}<br/>
+        </div>
+        <div class="form-group">
+          {{form.categoria.label() }}{{form.categoria(size="30",class="form-control")}}<br/>
+        </div>
+        <div class="form-group">
+          {{form.año.label() }}{{form.año(size="30",class="form-control")}}<br/>
+        </div>
+        {% if sistema=="mame"%}
+        <div class="form-group">
+          {{form.rom.label() }}{{form.rom(size="30",class="form-control")}}<br/>
+        </div>
+        {%endif%}
+        
+
+          {{form.submit(class="btn btn-lg btn-primary btn-block")}}
+    </form>
+      
+    </div>
+</div>
+      
+
+</div>
+
+
+</div>
+      
+{%- endblock %}

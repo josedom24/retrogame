@@ -7,6 +7,11 @@ def LeerDatos(nombre):
     with open(json_url) as file:
         return json.load(file)
 
+def GuardarDatos(nombre,datos):
+    json_url = os.path.join(SITE_ROOT, 'static', nombre+".json")
+    with open(json_url, 'w', encoding='utf8') as file:
+        json.dump(datos, file,indent=4,ensure_ascii=False)
+
 def getGame(datos,valor,campo="nombre"):
     try:
         if campo=="id":
@@ -56,7 +61,10 @@ def allDatos(nombre,filtro):
     dirs,ficheros=LeerFich(nombre)
     games=[]
     for game in dirs:
-        g=getGame(datos,game.split("/")[-1])[0]
+        try:
+            g=getGame(datos,game.split("/")[-1])[0]
+        except:
+            continue
         g["files"]=sorted(["/".join(z[4:]) for z in  [y for y in [x.split("/") for x in ficheros] if game.split("/")[-1] in y]])
         try:
             g["image"]=[x for x in g["files"] if ".jpg" in x or ".png" in x][0]
