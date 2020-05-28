@@ -25,7 +25,8 @@
     </div>
     <div class="col" style="padding-left: 100px">
       {% for sist in config.SISTEMAS%}
-      <a href="{{url_for('juegos',sistema=sist.sistema,ruta='')}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist.sistema+'.png')}}"/></a>      
+      <a href="{{url_for('juegos',sistema=sist.sistema,ruta='')}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist.sistema+'.png')}}"/></a>
+            
       {% endfor %}
     </div>
     </div>
@@ -42,6 +43,7 @@
           {%else%}
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{campo.title()}}</a>
           {%endif%}
+          
         
           <div class="dropdown-menu">
             {% for valor in valores %}
@@ -54,7 +56,9 @@
           </div>
         </li>
         {%endfor%}
+        <li><a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Juegos: {{datos|length}}</a></li>
       </ul>
+      
     </div>
 </div>
       <br/><br/>

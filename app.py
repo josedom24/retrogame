@@ -13,6 +13,7 @@ app.config['SISTEMAS']=[{"sistema":"todos"},
 {"sistema":"msx2"},
 {"sistema":"mame"},
 {"sistema":"amiga"},
+{"sistema":"nes"},
 ]
 Bootstrap(app)
 
@@ -73,6 +74,10 @@ def juega(id,sistema,ruta):
         return render_template('webmsx.html',game=game[0],tipo=tipo)
     if sistema=="mame":
         os.system('mame "'+game[0]["rom"]+'"')
+        return redirect("/"+ruta)
+    if sistema=="nes":
+        fich=os.path.join(os.path.abspath(os.path.dirname(__file__)),"static/"+game[0]["files"][0])
+        os.system('higan "'+fich+'"')
         return redirect("/"+ruta)
     if sistema=="amiga":
         floppy=""
