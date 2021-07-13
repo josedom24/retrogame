@@ -1,7 +1,7 @@
 import os,json
 from operator import itemgetter
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-GAME_ROOT = "/home/jose/Nextcloud/Games/"
+GAME_ROOT = SITE_ROOT+"/static/Games/"
 def LeerDatos(nombre):
     json_url = os.path.join(SITE_ROOT, 'static', nombre+".json")
     with open(json_url) as file:
@@ -65,14 +65,14 @@ def allDatos(nombre,filtro):
             g=getGame(datos,game.split("/")[-1])[0]
         except:
             continue
-        g["files"]=sorted(["/".join(z[4:]) for z in  [y for y in [x.split("/") for x in ficheros] if game.split("/")[-1] in y]])
+        g["files"]=sorted(["/".join(z[-5:]) for z in  [y for y in [x.split("/") for x in ficheros] if game.split("/")[-1] in y]])
+    
         try:
             g["image"]=[x for x in g["files"] if ".jpg" in x or ".png" in x][0]
             g["files"].remove(g["image"])
         except:
             g["image"]=""
         cont=0
-        
         for campo,valor in filtro.items():
             if campo=="letras" and g["nombre"].startswith(valor):
                 cont=cont+1
