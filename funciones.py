@@ -1,11 +1,26 @@
 import os,json
 from operator import itemgetter
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-GAME_ROOT = SITE_ROOT+"/static/Games/"
+GAME_ROOT = SITE_ROOT+"/games/"
 def LeerDatos(nombre):
-    json_url = os.path.join(SITE_ROOT, 'static', nombre+".json")
-    with open(json_url) as file:
-        return json.load(file)
+    for root, dirs, files in os.walk(GAME_ROOT+"roms/"+nombre):
+        if nombre=="msx" or nombre=="msx2":
+            juegos={}
+            juegos["sistema"]=nombre
+            juegos["compañias"]=set()
+            juegos["años"]=set()
+            juegos["lista"]=[]
+            for file in files:
+                juego={}
+                juego["nombre"]=file.split("(")[0][:-1]
+                tmp=file.split("(")[1].split(")")[0]
+                juego["compañia"]=tmp.split(",")[0]
+                juegos["compañias"].add(tmp.split(",")[0])
+                juego["año"]=tmp.split(",")[1][1:]
+                juegos["años"].add(tmp.split(",")[1][1:])
+                juegos["lista"].append(juego)
+            print(juegos)
+
 
 def GuardarDatos(nombre,datos):
     json_url = os.path.join(SITE_ROOT, 'static', nombre+".json")
