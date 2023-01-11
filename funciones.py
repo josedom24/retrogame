@@ -19,7 +19,7 @@ def LeerDatos(nombre):
                 juego["año"]=tmp.split(",")[1][1:]
                 juegos["años"].add(tmp.split(",")[1][1:])
                 juegos["lista"].append(juego)
-            print(juegos)
+            return(juegos)
 
 
 def GuardarDatos(nombre,datos):

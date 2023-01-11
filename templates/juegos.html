@@ -25,12 +25,13 @@
     </div>
     <div class="col" style="padding-left: 100px">
       {% for sist in config.SISTEMAS%}
-      <a href="{{url_for('juegos',sistema=sist.sistema,ruta='')}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist.sistema+'.png')}}"/></a>
+      <a href="{{url_for('juegos',sistema=sist,ruta='')}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
             
       {% endfor %}
     </div>
     </div>
   </div>
+
 <div class="container">
     
     <div class="row">
@@ -56,13 +57,15 @@
           </div>
         </li>
         {%endfor%}
-        <li><a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Juegos: {{datos|length}}</a></li>
+        <li><a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Juegos: {{juegos.lista|length}}</a></li>
       </ul>
       
     </div>
 </div>
+
+
       <br/><br/>
-      <div class="container">
+     <!-- <div class="container">
         {% for datos_row in datos  | batch(3, '&nbsp;') %}
         <div class="row">
           {% for game in datos_row %}
@@ -91,11 +94,11 @@
           <div class="col"></div>
           {% endif %}
           {% endfor%}
-        </div>
+        </div>-->
         {% endfor %}
       </div>
 
-
+    
       
    </div>
       
