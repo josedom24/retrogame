@@ -2,4 +2,7 @@
 static/Games
 __pycache__/
 history/
-games/thumbnails
+games
+static/thumbnails
+static/Juegos
+
