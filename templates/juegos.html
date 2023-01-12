@@ -1,13 +1,8 @@
-{# This simple template derives from ``base.html``. See ``base.html`` for
-   more information about template inheritance. #}
 {%- extends "base.html" %}
 {% block title %}
   retroGames - {{sistema.upper()}}
 {% endblock%}
 
-{# Inside the ``content`` is where you should place most of your own stuff.
-   This will keep scripts at the page end and a navbar you add on later
-   intact. #}
 {% block content %}
   <div class="container">
   
@@ -25,66 +20,78 @@
     </div>
     <div class="col" style="padding-left: 100px">
       {% for sist in config.SISTEMAS%}
-      <a href="{{url_for('juegos',sistema=sist,ruta='')}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
+      <a href="{{url_for('juegos',sistema=sist)}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
             
       {% endfor %}
     </div>
     </div>
   </div>
 
-<div class="container">
-    
-    <div class="row">
 
-      <ul class="nav nav-tabs">
-        {%for campo,valores in busqueda.items()%}
-        <li class="nav-item dropdown">
-          {% if campo in filtro%}
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{filtro[campo]}}</a>
-          {%else%}
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{campo.title()}}</a>
-          {%endif%}
-          
+  <form action="/sistema/{{sistema}}" method="POST" class="row row-cols-lg-auto g-3 align-items-center">
+    <div class="col-12">
+      <label class="floatingInput" for="inlineFormInputGroupUsername">Nombre</label>
+      <div class="input-group">
         
-          <div class="dropdown-menu">
-            {% for valor in valores %}
-            {% if filtro[campo]==valor %}
-            <a class="dropdown-item active" href="{{url}}{{campo}}/{{valor}}">{{valor}}</a>
-            {%else%}
-            <a class="dropdown-item" href="{{url}}{{campo}}/{{valor}}">{{valor}}</a>
-            {%endif%}
-            {%endfor%}
-          </div>
-        </li>
-        {%endfor%}
-        <li><a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Juegos: {{juegos.lista|length}}</a></li>
-      </ul>
-      
+        <input name="nombre" type="text" value="{{filtro.nombre}}" class="form-control" id="inlineFormInputGroupUsername" placeholder="Juego...">
+      </div>
     </div>
-</div>
+  
+    <div class="col-12">
+      <label class="floatingInput" for="inlineFormSelectPref">Compañía</label>
+      <select name="compañia" class="form-select" id="inlineFormSelectPref">
+        <option selected></option>
+        {% for compañia in juegos.compañias %}
+          {% if compañia==filtro.compañia %}
+          <option value="{{compañia}}" selected>{{compañia}}</option>
+          {%else%}
+          <option value="{{compañia}}">{{compañia}}</option>
+          {%endif%}
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-12">
+      <label class="floatingInput" for="inlineFormSelectPref">Año</label>
+      <select name="año" class="form-select" id="inlineFormSelectPref">
+        <option selected></option>
+        {% for año in juegos.años %}
+        {% if año==filtro.año %}
+          <option value="{{año}}" selected>{{año}}</option>
+          {%else%}
+          <option value="{{año}}">{{año}}</option>
+          {%endif%}
+        {% endfor %}
+      </select>
+    </div>
+    
+  
+    <div class="col-12">
+      
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+  </form>
 
 
-      <br/><br/>
-     <!-- <div class="container">
-        {% for datos_row in datos  | batch(3, '&nbsp;') %}
+
+
+      <br/><h3>Juegos: {{juegos.lista|length}}</h3><br/>
+  
+      <div class="container">
+        {% for datos_row in juegos.lista  | batch(5, '&nbsp;') %}
         <div class="row">
           {% for game in datos_row %}
           {% if game.nombre %}
           <div class="col">
-            <div class="card" style="width: 18rem;">
-              {% if game.image!="" %}
-              <img src="{{url_for('static',filename=game.image)}}" class="card-img-top" alt="...">
+            <div class="card" style="width: 12rem;">
+              <img src="{{url_for('static',filename=game.imagen)}}" class="card-img-top" alt="...">
             
-              {%else%}
-              <img src="{{url_for('static',filename='img/sin.jpg')}}" class="card-img-top" alt="...">
-              {%endif%}
+              
               <div class="card-body">
-                <h4 class="card-title">{{game.nombre}}</h4>
-                <img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.sistema.lower()+'.png')}}" class="card-img" alt="...">
-                <p class="card-text">{{game.categoria}} - {{game.año}}</p>
-                <p class="card-text"><small>{{game.desarrollador}} - {{game.distribuidor}}</p></small>
-                <a href="{{url_for('juega',sistema=game.sistema.lower(),ruta=url[1:],id=game.id)}}" class="btn btn-primary">Jugar </a>
-                <a href="{{url_for('descarga',sistema=game.sistema.lower(),ruta=url[1:],id=game.id)}}" class="btn btn-primary">Detalles </a>
+                <strong><p class="card-title">{{game.nombre}}</p></strong>
+                  <img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.sistema.lower()+'.png')}}" class="card-img" alt="..."></h5><br/>
+                <small class="card-text">{{game.compañia}} - {{game.año}}</small>
+                
                 
                 
               </div>
@@ -94,7 +101,7 @@
           <div class="col"></div>
           {% endif %}
           {% endfor%}
-        </div>-->
+        </div>
         {% endfor %}
       </div>
 

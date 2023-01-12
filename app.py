@@ -5,7 +5,7 @@ from funciones import *
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SISTEMAS']=["todos","msx","msx2","mame","amiga","nes"]
+app.config['SISTEMAS']=["todos","msx","msx2","mame","amiga500","nes"]
 
 
 # Our index-page just shows a quick explanation. Check out the template
@@ -17,9 +17,9 @@ def index():
 
 ## Shows a long signup form, demonstrating form rendering.
 @app.route('/sistema/<sistema>/', methods=('GET', 'POST'))
-@app.route('/sistema/<sistema>/<path:ruta>', methods=('GET', 'POST'))
+#@app.route('/sistema/<sistema>/<path:ruta>', methods=('GET', 'POST'))
 def juegos(sistema,ruta=""):
-    filtro,redireccionar=getFiltro(sistema,ruta)    
+    #filtro,redireccionar=getFiltro(sistema,ruta)    
     #if redireccionar:
     #    return redirect(getRuta(filtro))
     #if sistema=="todos":
@@ -31,11 +31,8 @@ def juegos(sistema,ruta=""):
     #    datos=allDatos(sistema.upper(),filtro)
     #busqueda=getDatos(datos)
     #print(getDatos(getGame(datos,"Racing","categoria"),"desarrollador"))
-
-    juegos=LeerDatos(sistema)
-    print(juegos)
-    busqueda={"compañia":sorted(juegos["compañias"]),"año":sorted(juegos["años"])}
-    return render_template('juegos.html',sistema=sistema,busqueda=busqueda,juegos=juegos,filtro=filtro,url=getRuta(filtro))
+    juegos=LeerDatos(sistema,app.config["SISTEMAS"],request.form)
+    return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form)
 
 #@app.route('/descargar/<sistema>/<id>/<path:ruta>')
 #def descarga(sistema,id,ruta):
