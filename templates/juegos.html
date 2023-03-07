@@ -33,7 +33,7 @@
       <label class="floatingInput" for="inlineFormInputGroupUsername">Nombre</label>
       <div class="input-group">
         
-        <input name="nombre" type="text" value="{{filtro.nombre}}" class="form-control" id="inlineFormInputGroupUsername" placeholder="Juego...">
+        <input name="título" type="text" value="{{filtro.título}}" class="form-control" id="inlineFormInputGroupUsername" placeholder="Juego...">
       </div>
     </div>
   
@@ -42,38 +42,25 @@
       <select name="desarrollador" class="form-select" id="inlineFormSelectPref">
         <option selected></option>
         {% for desarrollador in juegos.desarrollador %}
-          {% if desarrollador==filtro.desarrollador %}
-          <option value="{{desarrollador}}" selected>{{desarrollador}}</option>
+          {% if desarrollador.split("(")[0]==filtro.desarrollador %}
+          <option value="{{desarrollador.split("(")[0]}}" selected>{{desarrollador}}</option>
           {%else%}
-          <option value="{{desarrollador}}">{{desarrollador}}</option>
+          <option value="{{desarrollador.split("(")[0]}}">{{desarrollador}}</option>
           {%endif%}
         {% endfor %}
       </select>
     </div>
 
-    <div class="col-12">
-      <label class="floatingInput" for="inlineFormSelectPref">Distribuidor</label>
-      <select name="distribuidor" class="form-select" id="inlineFormSelectPref">
-        <option selected></option>
-        {% for distribuidor in juegos.distribuidor %}
-          {% if distribuidor==filtro.distribuidor %}
-          <option value="{{distribuidor}}" selected>{{distribuidor}}</option>
-          {%else%}
-          <option value="{{distribuidor}}">{{distribuidor}}</option>
-          {%endif%}
-        {% endfor %}
-      </select>
-    </div>
-
+   
     <div class="col-12">
       <label class="floatingInput" for="inlineFormSelectPref">Géneros</label>
       <select name="genero" class="form-select" id="inlineFormSelectPref">
         <option selected></option>
         {% for genero in juegos.genero %}
-          {% if genero==filtro.genero %}
-          <option value="{{genero}}" selected>{{genero}}</option>
+          {% if genero.split("(")[0]==filtro.genero %}
+          <option value="{{genero.split("(")[0]}}" selected>{{genero}}</option>
           {%else%}
-          <option value="{{genero}}">{{genero}}</option>
+          <option value="{{genero.split("(")[0]}}">{{genero}}</option>
           {%endif%}
         {% endfor %}
       </select>
@@ -85,10 +72,10 @@
       <select name="año" class="form-select" id="inlineFormSelectPref">
         <option selected></option>
         {% for año in juegos.año %}
-        {% if año==filtro.año %}
-          <option value="{{año}}" selected>{{año}}</option>
+        {% if año.split("(")[0]==filtro.año %}
+          <option value="{{año.split("(")[0]}}" selected>{{año}}</option>
           {%else%}
-          <option value="{{año}}">{{año}}</option>
+          <option value="{{año.split("(")[0]}}">{{año}}</option>
           {%endif%}
         {% endfor %}
       </select>
@@ -119,7 +106,7 @@
               <div class="card-body">
                 <strong><p class="card-title">{{game.título}}</p></strong>
                   <img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.plataforma.lower()+'.png')}}" class="card-img" alt="..."></h5><br/>
-                <small class="card-text">{{game.desarrollador.0}} - {{game.año}}</small>
+                <small class="card-text">{{game.desarrollador}} - {{game.año}}</small>
                 
                 
                 

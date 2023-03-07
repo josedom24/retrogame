@@ -24,7 +24,7 @@ def LeerDatos(nombre,sistemas,filtro):
             if valor!="":
                 juegos["lista"]=FiltrarDatos(juegos["lista"],clave,valor)
     
-    lista=["desarrollador","distribuidor","genero","año"]
+    lista=["desarrollador","genero","año"]
     for elemento in lista:
         juegos[elemento]=ConjuntoDatos(juegos["lista"],elemento)
 
@@ -42,8 +42,11 @@ def ConjuntoDatos(lista,elemento):
         else:
             if elemento!=None:
                 elementos.add(juego[elemento])
-    print(elemento,elementos)
     elementos=sorted(list(elementos))
+    cont=0
+    for ele in elementos:
+        elementos[cont]=elementos[cont]+ "("+str(len(FiltrarDatos(lista,elemento,ele)))+")"
+        cont=cont+1
     return elementos
 
 def FiltrarDatos(juegos,clave,valor):
@@ -51,6 +54,6 @@ def FiltrarDatos(juegos,clave,valor):
     print(clave,valor)
     for juego in juegos:
         
-        if (clave=="nombre" and juego[clave].startswith(valor)) or (juego[clave]==valor):
+        if (clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
             newlist.append(juego)
     return newlist

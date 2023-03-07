@@ -60,10 +60,7 @@ def juegos(sistema,ruta=""):
 #            tipo="dsk"
 #        if game[0]["files"][0].lower().endswith(".rom"):
 #            tipo="rom"
-#        if game[0]["files"][0].lower().endswith(".cas"):
-#            tipo="cas"
-#        return render_template('webmsx.html',game=game[0],tipo=tipo)
-#    if sistema=="mame":
+#        if game[0]["files"][0].lower<small class="card-text">{{game.compañia}} - {{game.año}}</small>
 #        os.system('mame "'+game[0]["rom"]+'"')
 #        return redirect("/"+ruta)
 #    if sistema=="nes":
