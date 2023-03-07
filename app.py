@@ -5,8 +5,8 @@ from funciones import *
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SISTEMAS']=["todos","msx","msx2","mame","amiga500","nes"]
-
+app.config['SISTEMAS']=["todos","msx","msx2","amiga"]
+app.config['DIR']={"msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","amiga":"Commodore - Amiga"}
 
 # Our index-page just shows a quick explanation. Check out the template
 # "templates/index.html" documentation for more details.
@@ -32,7 +32,7 @@ def juegos(sistema,ruta=""):
     #busqueda=getDatos(datos)
     #print(getDatos(getGame(datos,"Racing","categoria"),"desarrollador"))
     juegos=LeerDatos(sistema,app.config["SISTEMAS"],request.form)
-    return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form)
+    return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form,dir=app.config["DIR"])
 
 #@app.route('/descargar/<sistema>/<id>/<path:ruta>')
 #def descarga(sistema,id,ruta):

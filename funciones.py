@@ -11,37 +11,40 @@ def LeerDatos(nombre,sistemas,filtro):
     juegos={}
     juegos["lista"]=[]
     for nombre in sistemas:
-        for root, dirs, files in os.walk(GAME_ROOT+"roms/"+nombre):
-            if nombre=="amiga500":
-                files=dirs
+        with open(GAME_ROOT+"src/"+nombre+".json") as fichero:
+            j=json.load(fichero)
+        juegos["lista"]=juegos["lista"]+j
+            
+            
     
-            for file in files:
-                juego={}
-                juego["imagen"]="/thumbnails/"+nombre+"/Named_Boxarts/"+file.split(".")[0]+".png"
-                juego["sistema"]=nombre
-                juego["nombre"]=file.split("(")[0][:-1]
-                tmp=file.split("(")[1].split(")")[0]
-                juego["compañia"]=tmp.split(",")[0]                
-                juego["año"]=tmp.split(",")[1][1:]
-                juegos["lista"].append(juego)
-    
-    
-    juegos["lista"] = sorted(juegos["lista"], key=lambda d: d['nombre']) 
+    juegos["lista"] = sorted(juegos["lista"], key=lambda d: d['título']) 
     
     if len(filtro)>0:
         for clave,valor in filtro.items():
             if valor!="":
                 juegos["lista"]=FiltrarDatos(juegos["lista"],clave,valor)
     
-    juegos["compañias"]=set()
-    juegos["años"]=set()
-    for juego in juegos["lista"]:
-        juegos["compañias"].add(juego["compañia"])
-        juegos["años"].add(juego["año"])
-    juegos["compañias"]=sorted(list(juegos["compañias"]))
-    juegos["años"]=sorted(list(juegos["años"]))
+    lista=["desarrollador","distribuidor","genero","año"]
+    for elemento in lista:
+        juegos[elemento]=ConjuntoDatos(juegos["lista"],elemento)
+
+    print(juegos)
     return(juegos)
 
+
+def ConjuntoDatos(lista,elemento):
+    elementos=set()
+    for juego in lista:
+        if isinstance(juego[elemento], list):
+            for elem in juego[elemento]:
+                if elem!=None:
+                    elementos.add(elem)
+        else:
+            if elemento!=None:
+                elementos.add(juego[elemento])
+    print(elemento,elementos)
+    elementos=sorted(list(elementos))
+    return elementos
 
 def FiltrarDatos(juegos,clave,valor):
     newlist=[]
