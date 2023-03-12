@@ -9,21 +9,22 @@
   <div class="d-flex align-items-center p-3 my-3  bg-purple rounded shadow-sm">
     <div class="row">
     <div class="lh-100">
-      
+      <div class="col" style="padding-left: 100px">
+        {% for sist in config.SISTEMAS%}
+        <a href="{{url_for('juegos',sistema=sist)}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
+              
+        {% endfor %}
+      </div>
+      <br/>
       {% if sistema=="todos" %}
-        <h2 class="mb-0 lh-100">Todos los Juegos</h2>
+        <h1 class="mb-0 lh-100">Todos los Juegos</h1>
       {%else%}
-        <h2 class="mb-0 lh-100">Juegos {{sistema.upper()}}</h2>
+        <h1 class="mb-0 lh-100">Juegos {{sistema.upper()}}</h1>
       {%endif%}
-      <small>RetroGAMES</small>
+  
       
     </div>
-    <div class="col" style="padding-left: 100px">
-      {% for sist in config.SISTEMAS%}
-      <a href="{{url_for('juegos',sistema=sist)}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
-            
-      {% endfor %}
-    </div>
+    
     </div>
   </div>
 
@@ -42,10 +43,10 @@
       <select name="desarrollador" class="form-select" id="inlineFormSelectPref">
         <option selected></option>
         {% for desarrollador in juegos.desarrollador %}
-          {% if desarrollador.split("(")[0]==filtro.desarrollador %}
-          <option value="{{desarrollador.split("(")[0]}}" selected>{{desarrollador}}</option>
+          {% if desarrollador.split(" (")[0]==filtro.desarrollador %}
+          <option value="{{desarrollador.split(" (")[0]}}" selected>{{desarrollador}}</option>
           {%else%}
-          <option value="{{desarrollador.split("(")[0]}}">{{desarrollador}}</option>
+          <option value="{{desarrollador.split(" (")[0]}}">{{desarrollador}}</option>
           {%endif%}
         {% endfor %}
       </select>
@@ -57,10 +58,10 @@
       <select name="genero" class="form-select" id="inlineFormSelectPref">
         <option selected></option>
         {% for genero in juegos.genero %}
-          {% if genero.split("(")[0]==filtro.genero %}
-          <option value="{{genero.split("(")[0]}}" selected>{{genero}}</option>
+          {% if genero.split(" (")[0]==filtro.genero %}
+          <option value="{{genero.split(" (")[0]}}" selected>{{genero}}</option>
           {%else%}
-          <option value="{{genero.split("(")[0]}}">{{genero}}</option>
+          <option value="{{genero.split(" (")[0]}}">{{genero}}</option>
           {%endif%}
         {% endfor %}
       </select>
@@ -72,10 +73,10 @@
       <select name="año" class="form-select" id="inlineFormSelectPref">
         <option selected></option>
         {% for año in juegos.año %}
-        {% if año.split("(")[0]==filtro.año %}
-          <option value="{{año.split("(")[0]}}" selected>{{año}}</option>
+        {% if año.split(" (")[0]==filtro.año %}
+          <option value="{{año.split(" (")[0]}}" selected>{{año}}</option>
           {%else%}
-          <option value="{{año.split("(")[0]}}">{{año}}</option>
+          <option value="{{año.split(" (")[0]}}">{{año}}</option>
           {%endif%}
         {% endfor %}
       </select>
@@ -94,22 +95,27 @@
       <br/><h3>Juegos: {{juegos.lista|length}}</h3><br/>
   
       <div class="container">
-        {% for datos_row in juegos.lista  | batch(5, '&nbsp;') %}
+        {% for datos_row in juegos.lista  | batch(6, '&nbsp;') %}
         <div class="row">
           {% for game in datos_row %}
           {% if game.título %}
           <div class="col">
             <div class="card" style="width: 12rem;">
-              <img src="{{url_for('static',filename='thumbnails/'+dir[game.plataforma]+'/Named_Boxarts/'+game.fichero+'.png')}}" class="card-img-top" alt="...">
-            
+              <a href="{{url_for('juego',sistema=sistema,sistema_juego=game.plataforma,nombre=game.título)}}">
+              {% if os.path.exists('./static/thumbnails/'+dir[game.plataforma]+'/Named_Boxarts/'+game.imagen+'.png') %}
+              <img src="{{url_for('static',filename='thumbnails/'+dir[game.plataforma]+'/Named_Boxarts/'+game.imagen+'.png')}}" class="card-img-top" alt="...">
+              {% else %}
+              <img src="{{url_for('static',filename='img/sin.jpg')}}" class="card-img-top" alt="...">
+              {%endif%}
+              </a>
               
               <div class="card-body">
                 <strong><p class="card-title">{{game.título}}</p></strong>
                   <img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.plataforma.lower()+'.png')}}" class="card-img" alt="..."></h5><br/>
                 <small class="card-text">{{game.desarrollador}} - {{game.año}}</small>
-                
-                
-                
+                <br/>
+                <small class="card-text">{{game.genero}}</small>
+               
               </div>
             </div>
           </div>

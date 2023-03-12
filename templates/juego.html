@@ -1,0 +1,57 @@
+{%- extends "base.html" %}
+{% block title %}
+  retroGames - {{sistema.upper()}}
+{% endblock%}
+
+{% block content %}
+<div class="d-flex align-items-center p-3 my-3  bg-purple rounded shadow-sm">
+  <div class="row">
+    <div class="lh-100">
+      
+      <div class="row align-items-start" style="padding-left: 100px">
+        <div class="card" style="width: 22rem;">
+          {% if os.path.exists('./static/thumbnails/'+dir[game.plataforma]+'/Named_Boxarts/'+game.imagen+'.png') %}
+              <img src="{{url_for('static',filename='thumbnails/'+dir[game.plataforma]+'/Named_Boxarts/'+game.imagen+'.png')}}" class="card-img-top" alt="...">
+              {% else %}
+              <img src="{{url_for('static',filename='img/sin.jpg')}}" class="card-img-top" alt="...">
+              {%endif%}
+              <br/>
+           </div>
+        <div class="col">
+          <h1>{{game.título}}</h1>
+          <h4><strong>Desarrollador: </strong>{{game.desarrollador}}</h4>
+          <h4><strong>Año: </strong>{{game.año}}</h4>
+          <h4><strong>Género: </strong>{{",".join(game.genero)}}</h4>
+          <h4><strong>Plataforma: </strong>{{game.plataforma}}</h4>
+          <br/><br/>
+          <p>{{game.comentario}}</p>
+          <a href="{{url_for('juegos',sistema=sistema,filtro="#")}}" >Volver</a>
+
+          
+        </div>
+       
+          <div class="card" style="width: 22rem;">
+            {% if os.path.exists('./static/thumbnails/'+dir[game.plataforma]+'/Named_Snaps/'+game.imagen+'.png') %}
+            <img src="{{url_for('static',filename='thumbnails/'+dir[game.plataforma]+'/Named_Snaps/'+game.imagen+'.png')}}" class="card-img-top" alt="...">
+            {% else %}
+            <img src="{{url_for('static',filename='img/sin.jpg')}}" class="card-img-top" alt="...">
+            {%endif%}
+            </div>
+            
+            {% if os.path.exists('./static/thumbnails/'+dir[game.plataforma]+'/Named_Titles/'+game.imagen+'.png') %}
+            <div class="card" style="width: 22rem;">
+            <img src="{{url_for('static',filename='thumbnails/'+dir[game.plataforma]+'/Named_Titles/'+game.imagen+'.png')}}" class="card-img-top" alt="...">
+            </div>
+            {%endif%}
+
+
+      
+      
+    
+     </div>
+    </div>
+
+  </div>
+      
+        
+{%- endblock %}

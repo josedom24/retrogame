@@ -18,7 +18,7 @@ def LeerDatos(nombre,sistemas,filtro):
             
     
     juegos["lista"] = sorted(juegos["lista"], key=lambda d: d['título']) 
-    
+    juegos["lista"]=CrearImagen(juegos["lista"])
     if len(filtro)>0:
         for clave,valor in filtro.items():
             if valor!="":
@@ -28,7 +28,7 @@ def LeerDatos(nombre,sistemas,filtro):
     for elemento in lista:
         juegos[elemento]=ConjuntoDatos(juegos["lista"],elemento)
 
-    print(juegos)
+    
     return(juegos)
 
 
@@ -45,15 +45,25 @@ def ConjuntoDatos(lista,elemento):
     elementos=sorted(list(elementos))
     cont=0
     for ele in elementos:
-        elementos[cont]=elementos[cont]+ "("+str(len(FiltrarDatos(lista,elemento,ele)))+")"
+        elementos[cont]=elementos[cont]+ " ("+str(len(FiltrarDatos(lista,elemento,ele)))+")"
         cont=cont+1
     return elementos
 
 def FiltrarDatos(juegos,clave,valor):
     newlist=[]
-    print(clave,valor)
+    
     for juego in juegos:
         
         if (clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
             newlist.append(juego)
+    return newlist
+
+def CrearImagen(lista):
+    newlist=[]
+    for juego in lista:
+        juego["imagen"]=juego["fichero"]
+        for car in ["/",":","*","&","?"]:
+            juego["imagen"]=juego["imagen"].replace(car,"_")
+        
+        newlist.append(juego)
     return newlist
