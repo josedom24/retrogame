@@ -25,7 +25,9 @@
           <h4><strong>Plataforma: </strong>{{game.plataforma}}</h4>
           <br/><br/>
           <p>{{game.comentario}}</p>
-          <a href="{{url_for('juegos',sistema=sistema,filtro="#")}}" >Volver</a>
+          
+          <a class="btn btn-primary" href="{{url_for('jugar',sistema=sistema,sistema_juego=sistema_juego,nombre=game.título)}}" >Jugar</a>
+          <a class="btn btn-primary" href="{{url_for('juegos',sistema=sistema,filtro="#")}}" >Volver</a>
 
           
         </div>
