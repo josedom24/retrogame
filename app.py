@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, session, redirect, url_for
 from funciones import *
-
+import subprocess
 
 
 app = Flask(__name__)
@@ -74,9 +74,9 @@ def jugar(sistema,sistema_juego,nombre):
         juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre})
     if instruccion=="":
         instruccion="flatpak run --filesystem=host org.libretro.RetroArch  -L "+dir_cores+core+ ' "'+dir_files+dir+"/"+juego["lista"][0]["fichero"]+extension+'"'
-    
+    print(instruccion)
     try:
-        os.system(instruccion)
+        subprocess.call(instruccion,shell=True)
     except:
         pass
 
