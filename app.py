@@ -9,6 +9,8 @@ SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SISTEMAS']=["todos","msx","msx2","amiga","mame"]
 app.config['DIR']={"msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","amiga":"Commodore - Amiga","mame":"MAME"}
+NUM_ELEM=18
+
 with open("enlaces.json") as fichero:
     app.config["ENLACES"]=json.load(fichero)
 
@@ -22,9 +24,10 @@ def handle_context():
 def index():
     return render_template('index.html')
 
-@app.route('/sistema/<sistema>/', methods=('GET', 'POST'))
-@app.route('/sistema/<sistema>/<filtro>', methods=('GET', 'POST'))
-def juegos(sistema,filtro=""):
+@app.route('/sistema/<sistema>', methods=('GET', 'POST'))
+@app.route('/sistema/<sistema>/<pag>', methods=('GET', 'POST'))
+@app.route('/sistema/<sistema>/<filtro>/<pag>', methods=('GET', 'POST'))
+def juegos(sistema,filtro="",pag="1"):
     if request.method=="POST":
         session['filtro'] = request.form
     else:
@@ -34,15 +37,19 @@ def juegos(sistema,filtro=""):
             else:
                 session.pop('filtro')
     juegos=LeerDatos(sistema,app.config["SISTEMAS"],request.form)
-    return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form,dir=app.config["DIR"])
+    inicio=(int(pag)-1)*NUM_ELEM
+    final=inicio+NUM_ELEM
+    cantidad_juegos=len(juegos["lista"])
+    juegos["lista"]=juegos["lista"][inicio:final]
+    return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form,dir=app.config["DIR"],pag=int(pag),total=int(cantidad_juegos/NUM_ELEM)+1,cantidad_juegos=cantidad_juegos)
 
-@app.route('/juego/<sistema>/<sistema_juego>/<nombre>', methods=('GET', 'POST'))
-def juego(sistema,sistema_juego,nombre):
+@app.route('/juego/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
+def juego(sistema,sistema_juego,nombre,pag):
     juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre})
-    return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],dir=app.config["DIR"])
+    return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],dir=app.config["DIR"],pag=pag)
 
-@app.route('/jugar/<sistema>/<sistema_juego>/<nombre>', methods=('GET', 'POST'))
-def jugar(sistema,sistema_juego,nombre):
+@app.route('/jugar/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
+def jugar(sistema,sistema_juego,nombre,pag):
     juego=""
     instruccion=""
     dir_cores="~/.var/app/org.libretro.RetroArch/config/retroarch/cores/"
@@ -81,7 +88,7 @@ def jugar(sistema,sistema_juego,nombre):
         pass
 
         
-    return redirect(url_for('juego',sistema=sistema,sistema_juego=sistema_juego,nombre=nombre))    
+    return redirect(url_for('juego',sistema=sistema,sistema_juego=sistema_juego,nombre=nombre,pag=pag))    
 
 
 app.run("0.0.0.0",debug=True)

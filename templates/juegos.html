@@ -11,7 +11,7 @@
     <div class="lh-100">
       <div class="col" style="padding-left: 100px">
         {% for sist in config.SISTEMAS%}
-        <a href="{{url_for('juegos',sistema=sist)}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
+        <a href="{{url_for('juegos',sistema=sist,pag=1)}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
               
         {% endfor %}
       </div>
@@ -88,11 +88,33 @@
       <button type="submit" class="btn btn-primary">Buscar</button>
     </div>
   </form>
+<br/>
+
+  <nav aria-label="...">
+
+      {% for datos_row in range(1,total+1)  | batch(30, '&nbsp;') %}
+      <ul class="pagination">
+      {% for p in datos_row%}
+        {% if p!="&nbsp;"%}
+        {% if p==pag %}
+          <li class="page-item active" aria-current="page">
+            <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=p)}}">{{p}}</a>
+          </li>
+        {% else %}
+          <li class="pe-item"><a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=p)}}">{{p}}</a></li>
+        {% endif%}
+        {% endif%}
+        {% endfor%}
+     
+    </ul>
+    {% endfor%}
+     
+  </ul>
+
+  </nav>
 
 
-
-
-      <br/><h3>Juegos: {{juegos.lista|length}}</h3><br/>
+      <br/><h3>Juegos: {{cantidad_juegos}}</h3><br/>
   
       <div class="container">
         {% for datos_row in juegos.lista  | batch(6, '&nbsp;') %}
@@ -101,7 +123,7 @@
           {% if game.título %}
           <div class="col">
             <div class="card" style="width: 12rem;">
-              <a href="{{url_for('juego',sistema=sistema,sistema_juego=game.plataforma,nombre=game.título)}}">
+              <a href="{{url_for('juego',sistema=sistema,sistema_juego=game.plataforma,nombre=game.título,pag=pag)}}">
               {% if os.path.exists('./static/thumbnails/'+dir[game.plataforma]+'/Named_Boxarts/'+game.imagen+'.png') %}
               <img src="{{url_for('static',filename='thumbnails/'+dir[game.plataforma]+'/Named_Boxarts/'+game.imagen+'.png')}}" class="card-img-top" alt="...">
               {% else %}
@@ -110,13 +132,18 @@
               </a>
               
               <div class="card-body">
-                <strong><p class="card-title">{{game.título}}</p></strong>
-                  <img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.plataforma.lower()+'.png')}}" class="card-img" alt="..."></h5><br/>
+                <strong><center><p class="card-title">{{game.título}}</p></center></strong>
+                <center><img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.plataforma.lower()+'.png')}}" class="card-img" alt="..."></center>
+          
                 <small class="card-text">{{game.desarrollador}} - {{game.año}}</small>
                 <br/>
-                <small class="card-text">{{game.genero}}</small>
-                <br/><br/><center><a class="btn btn-primary" href="{{url_for('jugar',sistema=sistema,sistema_juego=game.plataforma,nombre=game.título)}}" >Jugar</a></center>
-               
+                <ul>
+                {%for g in game.genero%}
+                <li><small class="card-text">{{g}}</small></li>
+                {%endfor%}
+                </ul>
+                <center><a class="btn btn-primary" href="{{url_for('jugar',sistema=sistema,sistema_juego=game.plataforma,nombre=game.título,pag=pag)}}" >Jugar</a></center>
+                 </ul>
               </div>
             </div>
           </div>
@@ -127,6 +154,27 @@
         </div>
         {% endfor %}
       </div>
+      <br/>
+      <nav aria-label="...">
+        {% for datos_row in range(1,total+1)  | batch(30, '&nbsp;') %}
+      <ul class="pagination">
+      {% for p in datos_row%}
+        {% if p!="&nbsp;"%}
+        {% if p==pag %}
+          <li class="page-item active" aria-current="page">
+            <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=p)}}">{{p}}</a>
+          </li>
+        {% else %}
+          <li class="pe-item"><a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=p)}}">{{p}}</a></li>
+        {% endif%}
+        {% endif%}
+        {% endfor%}
+     
+    </ul>
+    {% endfor%}
+     
+  </ul>
+      </nav>
 
     
       

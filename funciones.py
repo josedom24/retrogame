@@ -4,6 +4,7 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 GAME_ROOT = SITE_ROOT+"/games/"
 
 def LeerDatos(nombre,sistemas,filtro):
+    
     if nombre=="todos":
         sistemas=sistemas[1:]
     else:
@@ -14,7 +15,7 @@ def LeerDatos(nombre,sistemas,filtro):
         with open(GAME_ROOT+"src/"+nombre+".json") as fichero:
             j=json.load(fichero)
         juegos["lista"]=juegos["lista"]+j
-            
+    
             
     
     juegos["lista"] = sorted(juegos["lista"], key=lambda d: d['título']) 

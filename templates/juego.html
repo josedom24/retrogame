@@ -22,12 +22,12 @@
           <h4><strong>Desarrollador: </strong>{{game.desarrollador}}</h4>
           <h4><strong>Año: </strong>{{game.año}}</h4>
           <h4><strong>Género: </strong>{{",".join(game.genero)}}</h4>
-          <h4><strong>Plataforma: </strong>{{game.plataforma}}</h4>
+          <h4><strong>Plataforma: </strong></h4><img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.plataforma.lower()+'.png')}}" class="card-img" alt="...">
           <br/><br/>
           <p>{{game.comentario}}</p>
           
-          <a class="btn btn-primary" href="{{url_for('jugar',sistema=sistema,sistema_juego=sistema_juego,nombre=game.título)}}" >Jugar</a>
-          <a class="btn btn-primary" href="{{url_for('juegos',sistema=sistema,filtro="#")}}" >Volver</a>
+          <a class="btn btn-primary" href="{{url_for('jugar',sistema=sistema,sistema_juego=sistema_juego,nombre=game.título,pag=pag)}}" >Jugar</a>
+          <a class="btn btn-primary" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag)}}" >Volver</a>
 
           
         </div>

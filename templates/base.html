@@ -28,7 +28,7 @@
             </a>
             <ul class="dropdown-menu">
               {% for sistema in config.SISTEMAS%}
-              <li><a class="dropdown-item" href="{{url_for('juegos',sistema=sistema,ruta='')}}">{{sistema.upper()}}</a></li>
+              <li><a class="dropdown-item" href="{{url_for('juegos',sistema=sistema,pag=1)}}">{{sistema.upper()}}</a></li>
               
               {%endfor%}
             </ul>
