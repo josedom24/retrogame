@@ -81,6 +81,20 @@
         {% endfor %}
       </select>
     </div>
+
+    <div class="col-12">
+      <label class="floatingInput" for="inlineFormSelectPref">Rating</label>
+      <select name="rating" class="form-select" id="inlineFormSelectPref">
+        <option selected></option>
+        {% for rating in juegos.rating %}
+        {% if rating[:1]==filtro.rating %}
+          <option value="{{rating}}" selected> {%for i in range(rating.0|int)%}⭐{%endfor%} {{rating[2:]}}</option>
+          {%else%}
+          <option value="{{rating.split(" (")[0]}}">{%for i in range(rating.0|int)%}⭐{%endfor%} {{rating[2:]}}</option>
+          {%endif%}
+        {% endfor %}
+      </select>
+    </div>
     
   
     <div class="col-12">
@@ -134,7 +148,11 @@
               <div class="card-body">
                 <strong><center><p class="card-title">{{game.título}}</p></center></strong>
                 <center><img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.plataforma.lower()+'.png')}}" class="card-img" alt="..."></center>
-          
+                {% if game.rating %}
+                  <center><img style="max-width: 140px;" src="{{url_for('static',filename='img/'+game.rating+'.png')}}" class="card-img" alt="..."/></center>
+                {%else%}
+                  <center><img style="max-width: 140px;" src="{{url_for('static',filename='img/0.png')}}" class="card-img" alt="..."/></center>
+                {%endif%}
                 <small class="card-text">{{game.desarrollador}} - {{game.año}}</small>
                 <br/>
                 <ul>

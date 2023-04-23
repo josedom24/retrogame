@@ -25,7 +25,7 @@ def LeerDatos(nombre,sistemas,filtro):
             if valor!="":
                 juegos["lista"]=FiltrarDatos(juegos["lista"],clave,valor)
     
-    lista=["desarrollador","genero","año"]
+    lista=["desarrollador","genero","año","rating"]
     for elemento in lista:
         juegos[elemento]=ConjuntoDatos(juegos["lista"],elemento)
 
@@ -36,13 +36,14 @@ def LeerDatos(nombre,sistemas,filtro):
 def ConjuntoDatos(lista,elemento):
     elementos=set()
     for juego in lista:
-        if isinstance(juego[elemento], list):
-            for elem in juego[elemento]:
-                if elem!=None:
-                    elementos.add(elem)
-        else:
-            if elemento!=None:
-                elementos.add(juego[elemento])
+        if elemento in juego:
+            if isinstance(juego[elemento], list):
+                for elem in juego[elemento]:
+                    if elem!=None:
+                        elementos.add(elem)
+            else:
+                if elemento!=None:
+                    elementos.add(juego[elemento])
     elementos=sorted(list(elementos))
     cont=0
     for ele in elementos:
@@ -54,9 +55,9 @@ def FiltrarDatos(juegos,clave,valor):
     newlist=[]
     
     for juego in juegos:
-        
-        if (clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
-            newlist.append(juego)
+        if clave in juego:
+            if (clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
+                newlist.append(juego)
     return newlist
 
 def CrearImagen(lista):

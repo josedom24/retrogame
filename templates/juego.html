@@ -19,6 +19,12 @@
            </div>
         <div class="col">
           <h1>{{game.título}}</h1>
+          {% if game.rating %}
+            <img src="{{url_for('static',filename='img/'+game.rating+'.png')}}" alt="..."/>
+          {%else%}
+            <img src="{{url_for('static',filename='img/0.png')}}" alt="..."/>
+          {%endif%}
+          <br/><br/>
           <h4><strong>Desarrollador: </strong>{{game.desarrollador}}</h4>
           <h4><strong>Año: </strong>{{game.año}}</h4>
           <h4><strong>Género: </strong>{{",".join(game.genero)}}</h4>
