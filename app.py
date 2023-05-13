@@ -7,8 +7,8 @@ import subprocess
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SISTEMAS']=["todos","msx","msx2","amiga","mame"]
-app.config['DIR']={"msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","amiga":"Commodore - Amiga","mame":"MAME"}
+app.config['SISTEMAS']=["todos","msx","msx2","amiga","mame","nes"]
+app.config['DIR']={"msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","amiga":"Commodore - Amiga","mame":"MAME","nes":"Nintendo - Nintendo Entertainment System"}
 NUM_ELEM=18
 
 with open("enlaces.json") as fichero:
@@ -53,6 +53,8 @@ def juegos(sistema,filtro="",pag="1"):
 
     if final>total+1:
         inicio=inicio-(final-total+1)
+        if inicio<1:
+            inicio=1
         final=total+1 
         
     print(inicio,final,pag,total)
