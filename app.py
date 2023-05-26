@@ -7,8 +7,8 @@ import subprocess
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SISTEMAS']=["todos","msx","msx2","amiga","mame","nes"]
-app.config['DIR']={"msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","amiga":"Commodore - Amiga","mame":"MAME","nes":"Nintendo - Nintendo Entertainment System"}
+app.config['SISTEMAS']=["todos","msx","msx2","amiga","mame","nes","neogeo"]
+app.config['DIR']={"msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","amiga":"Commodore - Amiga","mame":"MAME","nes":"Nintendo - Nintendo Entertainment System","neogeo":"FBNeo - Arcade Games"}
 NUM_ELEM=18
 
 with open("enlaces.json") as fichero:
@@ -70,35 +70,16 @@ def juego(sistema,sistema_juego,nombre,pag):
 def jugar(sistema,sistema_juego,nombre,pag):
     juego=""
     instruccion=""
-    dir_cores="~/.var/app/org.libretro.RetroArch/config/retroarch/cores/"
-    dir_files="/media/jose/copia/Juegos/roms/"
-    if sistema_juego=="msx" or sistema_juego=="msx2":
-        core="bluemsx_libretro.so"
-        extension=".zip"
-        dir=sistema_juego
-    elif sistema_juego=="amiga":
-        core="puae_libretro.so"
-        extension=".zip"
-        dir=sistema_juego+"500"
-    elif sistema_juego=="mame":
-        core="mame_libretro.so"
-        extension=".zip"
-        dir=sistema_juego
-        playlist="/media/jose/copia/Juegos/playlists/MAME.lpl"
-        with open(playlist) as fichero:
-            datos=json.load(fichero)
-        juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre})
-        j=[item for item in datos["items"] if item['label'] == juego["lista"][0]["fichero"]][0]
-        if j["core_name"]=="Arcade (FinalBurn Neo)":
-            core="fbneo_libretro.so"
-        if j["core_name"]=="Arcade (MAME 2003)":
-            core="mame2003_libretro.so"
-        instruccion="flatpak run --filesystem=host org.libretro.RetroArch  -L "+dir_cores+core+ ' "'+j["path"]+'"'
+    playlist="/media/jose/copia/Juegos/playlists/"+app.config['DIR'][sistema_juego]+".lpl"
+    with open(playlist) as fichero:
+        datos=json.load(fichero)
+    core=datos["default_core_path"]
+    juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre})
+    j=[item for item in datos["items"] if item['label'] == juego["lista"][0]["fichero"]][0]
+    if j["core_path"]!="DETECT":
+        core=j["core_path"]
+    instruccion="flatpak run --filesystem=host org.libretro.RetroArch  -L "+core+ ' "'+j["path"]+'"'
 
-    if juego == "":
-        juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre})
-    if instruccion=="":
-        instruccion="flatpak run --filesystem=host org.libretro.RetroArch  -L "+dir_cores+core+ ' "'+dir_files+dir+"/"+juego["lista"][0]["fichero"]+extension+'"'
     print(instruccion)
     try:
         subprocess.call(instruccion,shell=True)

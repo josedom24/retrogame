@@ -87,10 +87,13 @@
       <select name="rating" class="form-select" id="inlineFormSelectPref">
         <option selected></option>
         {% for rating in juegos.rating %}
+        
+        {%if rating[:1]!=" "%}
         {% if rating[:1]==filtro.rating %}
           <option value="{{rating}}" selected> {%for i in range(rating.0|int)%}⭐{%endfor%} {{rating[2:]}}</option>
           {%else%}
           <option value="{{rating.split(" (")[0]}}">{%for i in range(rating.0|int)%}⭐{%endfor%} {{rating[2:]}}</option>
+          {%endif%}
           {%endif%}
         {% endfor %}
       </select>
