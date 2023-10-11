@@ -1,0 +1,10 @@
+version: '3.1'
+services:
+  retrogame:
+    container_name: retrogame
+    image: josedom24/retrogame:v1
+    restart: always
+    ports:
+      - 5001:5000
+    volumes:
+      - /media/jose/copia/Juegos/:/media/jose/copia/Juegos/
