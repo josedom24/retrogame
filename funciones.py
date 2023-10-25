@@ -56,7 +56,7 @@ def FiltrarDatos(juegos,clave,valor):
     
     for juego in juegos:
         if clave in juego:
-            if (clave=="título" and valor in juego[clave] or clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
+            if (clave=="título" and valor == juego[clave] or clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
                 newlist.append(juego)
     return newlist
 
