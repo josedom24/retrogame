@@ -36,7 +36,7 @@ def juegos(sistema,filtro="",pag="1"):
                 request.form=session['filtro']
             else:
                 session.pop('filtro')
-    juegos=LeerDatos(sistema,app.config["SISTEMAS"],request.form)
+    juegos=LeerDatos(sistema,app.config["SISTEMAS"],request.form,"busqueda")
     inicio=(int(pag)-1)*NUM_ELEM
     final=inicio+NUM_ELEM
     cantidad_juegos=len(juegos["lista"])
@@ -63,7 +63,7 @@ def juegos(sistema,filtro="",pag="1"):
 
 @app.route('/juego/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
 def juego(sistema,sistema_juego,nombre,pag):
-    juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre})
+    juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre},"cuerpo")
     return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],dir=app.config["DIR"],pag=pag)
 
 @app.route('/jugar/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
@@ -74,7 +74,7 @@ def jugar(sistema,sistema_juego,nombre,pag):
     with open(playlist) as fichero:
         datos=json.load(fichero)
     core=datos["default_core_path"]
-    juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre})
+    juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre},"cuerpo")
     j=[item for item in datos["items"] if item['label'] == juego["lista"][0]["fichero"]][0]
     if j["core_path"]!="DETECT":
         core=j["core_path"]

@@ -3,7 +3,7 @@ from operator import itemgetter
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 GAME_ROOT = SITE_ROOT+"/games/"
 
-def LeerDatos(nombre,sistemas,filtro):
+def LeerDatos(nombre,sistemas,filtro,donde):
     
     if nombre=="todos":
         sistemas=sistemas[1:]
@@ -23,17 +23,17 @@ def LeerDatos(nombre,sistemas,filtro):
     if len(filtro)>0:
         for clave,valor in filtro.items():
             if valor!="":
-                juegos["lista"]=FiltrarDatos(juegos["lista"],clave,valor)
+                juegos["lista"]=FiltrarDatos(juegos["lista"],clave,valor,donde)
     
     lista=["desarrollador","genero","año","rating"]
     for elemento in lista:
-        juegos[elemento]=ConjuntoDatos(juegos["lista"],elemento)
+        juegos[elemento]=ConjuntoDatos(juegos["lista"],elemento,donde)
 
     
     return(juegos)
 
 
-def ConjuntoDatos(lista,elemento):
+def ConjuntoDatos(lista,elemento,donde):
     elementos=set()
     for juego in lista:
         if elemento in juego:
@@ -47,17 +47,22 @@ def ConjuntoDatos(lista,elemento):
     elementos=sorted(list(elementos))
     cont=0
     for ele in elementos:
-        elementos[cont]=elementos[cont]+ " ("+str(len(FiltrarDatos(lista,elemento,ele)))+")"
+        elementos[cont]=elementos[cont]+ " ("+str(len(FiltrarDatos(lista,elemento,ele,donde)))+")"
         cont=cont+1
     return elementos
 
-def FiltrarDatos(juegos,clave,valor):
+def FiltrarDatos(juegos,clave,valor,donde="cuerpo"):
     newlist=[]
     
     for juego in juegos:
         if clave in juego:
-            if (clave=="título" and valor == juego[clave] or clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
-                newlist.append(juego)
+            if donde=="cuerpo":
+                if (clave=="título" and valor == juego[clave] or clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
+                    newlist.append(juego)
+            if donde=="busqueda":
+                if (clave=="título" and valor in juego[clave] or clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
+                    newlist.append(juego)
+            
     return newlist
 
 def CrearImagen(lista):
