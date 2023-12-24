@@ -156,8 +156,10 @@
         <div class="row">
           {% for game in datos_row %}
           {% if game.título %}
+  
           <div class="col">
             <div class="card" style="width: 12rem;">
+              <a name="{{game.título}}"></a>
               <a href="{{url_for('juego',sistema=sistema,sistema_juego=game.plataforma,nombre=game.título,pag=pag)}}">
               {% if os.path.exists('./static/thumbnails/'+dir[game.plataforma]+'/Named_Boxarts/'+game.imagen+'.png') %}
               <img src="{{url_for('static',filename='thumbnails/'+dir[game.plataforma]+'/Named_Boxarts/'+game.imagen+'.png')}}" class="card-img-top" alt="...">
@@ -167,6 +169,7 @@
               </a>
               
               <div class="card-body">
+                
                 <strong><center><p class="card-title">{{game.título}}</p></center></strong>
                 <center><img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.plataforma.lower()+'.png')}}" class="card-img" alt="..."></center>
                 {% if game.rating %}
@@ -221,7 +224,7 @@
           {% endfor%}
           {%if final!=total+1%}
           <li class="page-item" aria-current="page">
-            <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag+1)}}">></a>
+            <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag+1)}}"></a>
           </li>
           <li class="page-item" aria-current="page">
             <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=total)}}">{{total}}</a>
