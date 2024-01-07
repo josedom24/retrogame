@@ -60,8 +60,21 @@ def FiltrarDatos(juegos,clave,valor,donde="cuerpo"):
                 if (clave=="título" and valor == juego[clave] or clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
                     newlist.append(juego)
             if donde=="busqueda":
-                if (clave=="título" and valor in juego[clave] or clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
-                    newlist.append(juego)
+                
+                if clave=="título":
+                    if "," in valor:
+                        valores=valor.split(",")
+                    else: 
+                        valores=[valor]
+                    print("<<<<<<",valores)
+                    for v in valores:
+                        print(v,juego[clave])
+                        if v in juego[clave]:
+                            newlist.append(juego)
+                            
+                else:
+                    if juego[clave]==valor or (isinstance(juego[clave],list) and valor in juego[clave]):
+                        newlist.append(juego)
             
     return newlist
 

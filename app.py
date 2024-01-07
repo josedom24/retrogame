@@ -57,7 +57,7 @@ def juegos(sistema,filtro="",pag="1"):
             inicio=1
         final=total+1 
         
-    print(inicio,final,pag,total)
+    print(request.form)
 
     return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form,dir=app.config["DIR"],inicio=inicio,final=final,pag=pag,total=total,cantidad_juegos=cantidad_juegos)
 

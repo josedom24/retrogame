@@ -11,7 +11,7 @@
     <div class="lh-100">
       <div class="col" style="padding-left: 100px">
         {% for sist in config.SISTEMAS%}
-        <a href="{{url_for('juegos',sistema=sist,pag=1)}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
+        <a href="{{url_for('juegos',sistema=sist)}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
               
         {% endfor %}
       </div>
