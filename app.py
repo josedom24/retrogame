@@ -41,7 +41,7 @@ def juegos(sistema,filtro="",pag="1"):
     final=inicio+NUM_ELEM
     cantidad_juegos=len(juegos["lista"])
     juegos["lista"]=juegos["lista"][inicio:final]
-    total=int(cantidad_juegos/NUM_ELEM)+1
+    total=int((cantidad_juegos-1)/NUM_ELEM)+1
     pag=int(pag)
 
     NUM_PAG=26
@@ -56,9 +56,8 @@ def juegos(sistema,filtro="",pag="1"):
         if inicio<1:
             inicio=1
         final=total+1 
-        
-    print(request.form)
-
+    
+    
     return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form,dir=app.config["DIR"],inicio=inicio,final=final,pag=pag,total=total,cantidad_juegos=cantidad_juegos)
 
 @app.route('/juego/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
