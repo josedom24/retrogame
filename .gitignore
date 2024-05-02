@@ -1,4 +1,3 @@
-*.json
 static/Games
 __pycache__/
 history/

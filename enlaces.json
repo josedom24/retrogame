@@ -1,0 +1,23 @@
+[
+    {"menu":"Colecciones","submenu":
+        [
+            {"label":"Lemon Amiga","url":"https://www.lemonamiga.com/"},
+            {"label":"Lemon c64","url":"https://www.lemon64.com/"},
+            {"label":"generation-msx","url":"https://www.generation-msx.nl/"},
+            {"label":"IGDB","url":"https://www.igdb.com/"},
+            {"label":"Computer Emuzone","url":"https://computeremuzone.com/"},
+            {"label":"Arcade Database","url":"http://adb.arcadeitalia.net/default.php"}
+            
+
+        ]
+    
+    },
+    {"menu":"ROMS","submenu":
+        [
+            {"label":"Download file-hunter","url":"https://download.file-hunter.com/Games/"},
+            {"label":"planetemu","url":"https://www.planetemu.net/"},
+            {"label":"wowroms","url":"https://wowroms.com/"},
+            {"label":"whdownload (amiga games)","url":"https://www.whdownload.com"}
+        ]
+    }
+]
