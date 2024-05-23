@@ -7,8 +7,8 @@ import subprocess
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SISTEMAS']=["todos","msx","msx2","c64","amiga","mame","nes","neogeo"]
-app.config['DIR']={"msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","amiga":"Commodore - Amiga","mame":"MAME","nes":"Nintendo - Nintendo Entertainment System","neogeo":"FBNeo - Arcade Games","c64":"Commodore - 64"}
+app.config['SISTEMAS']=["todos","msx","msx2","amstrad","c64","amiga","mame","nes","neogeo"]
+app.config['DIR']={"msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","amstrad":"Amstrad - CPC","amiga":"Commodore - Amiga","mame":"MAME","nes":"Nintendo - Nintendo Entertainment System","neogeo":"FBNeo - Arcade Games","c64":"Commodore - 64"}
 NUM_ELEM=24
 
 with open("enlaces.json") as fichero:
