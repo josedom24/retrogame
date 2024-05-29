@@ -66,7 +66,6 @@ def FiltrarDatos(juegos,clave,valor,donde="cuerpo"):
                         valores=valor.split(",")
                     else: 
                         valores=[valor]
-                    print("<<<<<<",valores)
                     for v in valores:
                         print(v,juego[clave])
                         if v in juego[clave]:
