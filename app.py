@@ -42,6 +42,7 @@ def juegos(sistema,filtro="",pag="1"):
     cantidad_juegos=len(juegos["lista"])
     juegos["lista"]=juegos["lista"][inicio:final]
     total=int((cantidad_juegos-1)/NUM_ELEM)+1
+    session["pagina"]=pag
     pag=int(pag)
 
     NUM_PAG=26
@@ -60,13 +61,16 @@ def juegos(sistema,filtro="",pag="1"):
     
     return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form,dir=app.config["DIR"],inicio=inicio,final=final,pag=pag,total=total,cantidad_juegos=cantidad_juegos)
 
-@app.route('/juego/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
-def juego(sistema,sistema_juego,nombre,pag):
+@app.route('/juego/<sistema>/<sistema_juego>/<nombre>', methods=('GET', 'POST'))
+def juego(sistema,sistema_juego,nombre):
     juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre},"cuerpo")
     juegos=LeerDatos("todos",app.config["SISTEMAS"],{"título":nombre},"exacto")
     plataformas = [info["plataforma"] for info in juegos["lista"]]
     plataformas.remove(sistema_juego)
-    print(plataformas)
+    if session["pagina"]:
+        pag=session["pagina"]
+    else:
+        pag="1"
     return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],dir=app.config["DIR"],pag=pag,plataformas=plataformas)
 
 @app.route('/jugar/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
