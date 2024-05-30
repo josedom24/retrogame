@@ -63,7 +63,11 @@ def juegos(sistema,filtro="",pag="1"):
 @app.route('/juego/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
 def juego(sistema,sistema_juego,nombre,pag):
     juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre},"cuerpo")
-    return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],dir=app.config["DIR"],pag=pag)
+    juegos=LeerDatos("todos",app.config["SISTEMAS"],{"título":nombre},"exacto")
+    plataformas = [info["plataforma"] for info in juegos["lista"]]
+    plataformas.remove(sistema_juego)
+    print(plataformas)
+    return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],dir=app.config["DIR"],pag=pag,plataformas=plataformas)
 
 @app.route('/jugar/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
 def jugar(sistema,sistema_juego,nombre,pag):

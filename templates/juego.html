@@ -29,6 +29,13 @@
           <h4><strong>Año: </strong>{{game.año}}</h4>
           <h4><strong>Género: </strong>{{",".join(game.genero)}}</h4>
           <h4><strong>Plataforma: </strong></h4><img style="max-width: 72px;" src="{{url_for('static',filename='img/'+game.plataforma.lower()+'.png')}}" class="card-img" alt="...">
+          {% if plataformas %}
+          <br/><br/>
+          <h5>Otras Plataformas:</h5>
+          {% for p in plataformas%}
+            <img style="max-width: 72px;" src="{{url_for('static',filename='img/'+p+'.png')}}" class="card-img" alt="...">
+          {%endfor%}
+          {%endif%}
           <br/><br/>
           <p>{{game.comentario}}</p>
           

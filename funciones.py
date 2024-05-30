@@ -59,6 +59,9 @@ def FiltrarDatos(juegos,clave,valor,donde="cuerpo"):
             if donde=="cuerpo":
                 if (clave=="título" and valor == juego[clave] or clave=="título" and juego[clave].startswith(valor)) or (juego[clave]==valor) or (isinstance(juego[clave],list) and valor in juego[clave]):
                     newlist.append(juego)
+            if donde=="exacto":
+                if clave=="título" and valor == juego[clave]:
+                    newlist.append(juego)
             if donde=="busqueda":
                 
                 if clave=="título":
