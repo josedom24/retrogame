@@ -67,7 +67,7 @@ def juego(sistema,sistema_juego,nombre):
     juegos=LeerDatos("todos",app.config["SISTEMAS"],{"título":nombre},"exacto")
     plataformas = [info["plataforma"] for info in juegos["lista"]]
     plataformas.remove(sistema_juego)
-    if session["pagina"]:
+    if "pagina" in session:
         pag=session["pagina"]
     else:
         pag="1"
