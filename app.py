@@ -94,7 +94,7 @@ def jugar(sistema,sistema_juego,nombre,pag):
         pass
 
         
-    return redirect(url_for('juego',sistema=sistema,sistema_juego=sistema_juego,nombre=nombre,pag=pag))    
+    return redirect(url_for('juego',sistema=sistema,sistema_juego=sistema_juego,nombre=nombre))    
 
 
 app.run("0.0.0.0",debug=True)
