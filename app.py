@@ -86,8 +86,6 @@ def jugar(sistema,sistema_juego,nombre,pag):
     if j["core_path"]!="DETECT":
         core=j["core_path"]
     instruccion="flatpak run --filesystem=host org.libretro.RetroArch  -L "+core+ ' "'+j["path"]+'"'
-
-    print(instruccion)
     try:
         subprocess.call(instruccion,shell=True)
     except:

@@ -70,7 +70,6 @@ def FiltrarDatos(juegos,clave,valor,donde="cuerpo"):
                     else: 
                         valores=[valor]
                     for v in valores:
-                        print(v,juego[clave])
                         if v in juego[clave]:
                             newlist.append(juego)
                             
