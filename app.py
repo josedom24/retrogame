@@ -71,10 +71,10 @@ def juego(sistema,sistema_juego,nombre):
         pag=session["pagina"]
     else:
         pag="1"
-    return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],dir=app.config["DIR"],pag=pag,plataformas=plataformas)
+    return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],pag=pag,dir=app.config["DIR"],plataformas=plataformas)
 
-@app.route('/jugar/<sistema>/<sistema_juego>/<nombre>/<pag>', methods=('GET', 'POST'))
-def jugar(sistema,sistema_juego,nombre,pag):
+@app.route('/jugar/<sistema>/<sistema_juego>/<nombre>', methods=('GET', 'POST'))
+def jugar(sistema,sistema_juego,nombre):
     juego=""
     instruccion=""
     playlist="/media/jose/copia/Juegos/playlists/"+app.config['DIR'][sistema_juego]+".lpl"
@@ -94,6 +94,12 @@ def jugar(sistema,sistema_juego,nombre,pag):
         
     return redirect(url_for('juego',sistema=sistema,sistema_juego=sistema_juego,nombre=nombre))    
 
+
+@app.route('/jugar_msx/<sistema>/<sistema_juego>/<nombre>', methods=('GET', 'POST'))
+def jugar_msx(sistema,sistema_juego,nombre):
+    juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre},"cuerpo")
+    
+    return render_template('msx.html',sistema=sistema,game=juego["lista"][0],dir=app.config["DIR"])
 
 app.run("0.0.0.0",debug=True)
     

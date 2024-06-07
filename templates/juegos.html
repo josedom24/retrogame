@@ -184,8 +184,13 @@
                 <li><small class="card-text">{{g}}</small></li>
                 {%endfor%}
                 </ul>
-                <center><a class="btn btn-primary" href="{{url_for('jugar',sistema=sistema,sistema_juego=game.plataforma,nombre=game.título,pag=pag)}}" >Jugar</a></center>
-                 </ul>
+                <center>
+                  <a class="btn btn-primary" href="{{url_for('jugar',sistema=sistema,sistema_juego=game.plataforma,nombre=game.título,pag=pag)}}" >Jugar</a>
+                  {%if game and (game.plataforma.lower()=="msx" or game.plataforma.lower()=="msx2")%}
+                  <a class="btn btn-secondary" href="{{url_for('jugar_msx',sistema=sistema,sistema_juego=game.plataforma,nombre=game.título,pag=pag)}}" >WebMSX</a>
+                  {%endif%}
+                </center>
+                </ul>
               </div>
             </div>
           </div>
