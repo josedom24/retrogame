@@ -64,9 +64,93 @@
       
     
      </div>
+     <hr>
+     {%if game and (game.plataforma.lower()=="msx" or game.plataforma.lower()=="msx2")%}
+    <center>
+    <div id="wmsx"><div id="wmsx-screen"></div></div></center>
     </div>
+    {%endif%}
 
   </div>
+  {%if game and (game.plataforma.lower()=="msx" or game.plataforma.lower()=="msx2")%}
+  <script>
+	 
+    window.onload = startMSX;
+    
+    function startMSX() {
+      let url  = new URLSearchParams(window.location.search).get('url');
+      let url2 = url ? url.toLowerCase() : "";
       
-        
+      // Fingerprint the url to detect 'proper' WMSX settings
+  
+      //let machine = "MSX2PA";	// Default to MSX2+ America
+      let presets = ["SCC2"]; // Default load SCC in Cartridge Slot 2
+      let mouse   = -1;		// Default to no mouse
+  
+      // Swap machines on demand
+      //if (url2.includes("(j)"))	   	machine = "MSX2PJ";
+      //if (url2.includes("(ja)"))	   	machine = "MSX2PJ";
+      //if (url2.includes("(jp)"))	   	machine = "MSX2PJ";
+      //if (url2.includes("msx1/"))    	machine = "MSX1A";
+      //if (url2.includes("turbo-r/"))	machine = "MSXTRA";
+  //
+      //// Add/swap Preset options on demand
+      //if (url2.includes("scci"))  	presets = ["SCCI2"];
+      //if (url2.includes("scc-i"))  	presets = ["SCCI2"];
+      //if (url2.includes("opl4")) 		presets.push("OPL4");
+      //if (url2.includes("v9990")) 	presets.push("V9990");
+      //if (url2.includes("ctrl") || machine == "MSX1A")        presets.push("DISKA");
+      //if (url2.includes("cas/") || url2.includes("'cas"))     presets.push("NODISK");
+      //if (url2.includes("hdd")  || url2.includes("harddisk")) presets.push("HARDDISK");
+      //
+      //if (url2.includes("[mouse]"))	mouse = 1;
+      
+      WMSX.MACHINE 			= 'MSX2PE';
+      
+      WMSX.PRESETS 			= presets.join(',');
+      WMSX.MOUSE_MODE			= mouse;
+      WMSX.SPRITES_DEBUG_MODE = 1; 		// Unlimited Sprites; no flickering.
+  
+      // MSX Filesnames within the Urls are luckily not case-sensitive
+      let filename = url2.split('/');
+      filename = filename[filename.length -1];
+      //document.title = decodeURI(filename);
+      
+      // handle .asc, .bas and .bin explicitly, handle HDD images explicitly; handle TAPE images explicitly with a RUN or BLOAD command (if provided in the filename) and use AUTO-DETECT for everything else
+      //if (filename.includes(".asc") || filename.includes(".bas") || filename.includes(".bin")) {
+      //	WMSX.DISKA_FILES_URL = url;
+      //	if (filename.includes(".bin")) 
+      //		WMSX.BASIC_BRUN = filename
+      //	else
+      //		WMSX.BASIC_RUN  = filename
+      //} else if (presets.includes("HARDDISK")) {
+      //	WMSX.HARDDISK_URL   = url;
+      //} else if (presets.includes("NODISK")) {
+      //	WMSX.TAPE_URL   	= url;
+      //	if (filename.includes("run'"))
+      //		WMSX.BASIC_ENTER = "RUN\"CAS:\"";
+      //	else if (filename.includes("bload'"))
+      //		WMSX.BASIC_ENTER = "BLOAD\"CAS:\",R";
+      //} else {
+      //	WMSX.AUTODETECT_URL = url;
+      //}
+      {% if game.formato=="dsk" %}
+      WMSX.DISKA_URL = '/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip';
+      {%else%}
+      WMSX.CARTRIDGE1_URL = '/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip';
+      {%endif%}
+      //WMSX.PRESETS 			= 'HARDDISK,SCCI2'
+      
+      // Auto-scale WebMSX windows if necessary
+      let height = window.innerHeight -550;
+      height = 1 + (~~(height))/550;
+      height = (window.innerWidth < 940) ? ~~(100*(window.innerWidth / 800))/100 : height;
+      //WMSX.SCREEN_DEFAULT_SCALE = height;
+      
+      // Finally start emulator !
+      WMSX.start();
+    }
+  
+  </script>      
+{%endif%}
 {%- endblock %}
