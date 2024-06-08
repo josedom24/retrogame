@@ -135,9 +135,9 @@
       //	WMSX.AUTODETECT_URL = url;
       //}
       {% if game.formato=="dsk" %}
-      WMSX.DISKA_URL = '/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip';
+      WMSX.DISKA_URL = "/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip";
       {%else%}
-      WMSX.CARTRIDGE1_URL = '/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip';
+      WMSX.CARTRIDGE1_URL = "/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip";
       {%endif%}
       //WMSX.PRESETS 			= 'HARDDISK,SCCI2'
       
