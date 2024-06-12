@@ -107,7 +107,6 @@
       
       WMSX.MACHINE 			= 'MSX2PE';
       
-      WMSX.PRESETS 			= presets.join(',');
       WMSX.MOUSE_MODE			= mouse;
       WMSX.SPRITES_DEBUG_MODE = 1; 		// Unlimited Sprites; no flickering.
   
@@ -136,11 +135,17 @@
       //}
       {% if game.formato=="dsk" %}
       WMSX.DISKA_URL = "/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip";
+      {% elif game.formato=="cas"%}
+      presets.push("NODISK");
+      WMSX.TAPE_URL= "/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip";
+      WMSX.BASIC_ENTER = "RUN\"CAS:\"";
       {%else%}
       WMSX.CARTRIDGE1_URL = "/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip";
       {%endif%}
       //WMSX.PRESETS 			= 'HARDDISK,SCCI2'
-      
+      WMSX.PRESETS 			= presets.join(',');
+
+
       // Auto-scale WebMSX windows if necessary
       let height = window.innerHeight -550;
       height = 1 + (~~(height))/550;
