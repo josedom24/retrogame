@@ -20,7 +20,9 @@
             {"label":"planetemu","url":"https://www.planetemu.net/"},
             {"label":"wowroms","url":"https://wowroms.com/"},
             {"label":"whdownload (amiga games)","url":"https://www.whdownload.com"},
-            {"label":"spectrumcomputing","url":"https://spectrumcomputing.co.uk"}
+            {"label":"spectrumcomputing","url":"https://spectrumcomputing.co.uk"},
+            {"label":"The Software Library: ZX Spectrum","url":"https://archive.org/details/softwarelibrary_zx_spectrum"}
+            
         ]
     }
 ]

@@ -72,6 +72,26 @@
     <div id="wmsx"><div id="wmsx-screen"></div></div></center>
     </div>
     {%endif%}
+    {%if game and game.url  and game.plataforma.lower()=="spectrum"%}
+    <center>
+      <div id="jsspeccy"></div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const emulator = JSSpeccy(document.getElementById('jsspeccy'), {
+                zoom: 2,
+                machine: 128,
+                sandbox: true,
+                autoStart: true,
+                autoLoadTapes: true,
+                tapeAutoLoadMode: 'default'
+            });
+                const gameFileUrl = "https://cors.archive.org/cors/{{game.url}}"
+                console.log("Intentando cargar el archivo del juego desde: ", gameFileUrl);
+                emulator.openUrl(gameFileUrl);
+                });
+    </script>
+    </div>
+    {%endif%}
 
   </div>
   {%if game and (game.plataforma.lower()=="msx" or game.plataforma.lower()=="msx2")%}
