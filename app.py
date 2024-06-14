@@ -43,6 +43,7 @@ def juegos(sistema,filtro="",pag="1"):
     juegos["lista"]=juegos["lista"][inicio:final]
     total=int((cantidad_juegos-1)/NUM_ELEM)+1
     session["pagina"]=pag
+    
     pag=int(pag)
 
     NUM_PAG=26
@@ -90,8 +91,6 @@ def jugar(sistema,sistema_juego,nombre):
         subprocess.call(instruccion,shell=True)
     except:
         pass
-
-        
     return redirect(url_for('juego',sistema=sistema,sistema_juego=sistema_juego,nombre=nombre))    
 
 

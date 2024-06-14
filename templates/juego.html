@@ -33,7 +33,9 @@
           <br/><br/>
           <h5>Otras Plataformas:</h5>
           {% for p in plataformas%}
+          <a class="btn " href="{{url_for('juego',sistema=sistema,sistema_juego=p,nombre=game.título)}}" >
             <img style="max-width: 72px;" src="{{url_for('static',filename='img/'+p+'.png')}}" class="card-img" alt="...">
+          </a>
           {%endfor%}
           {%endif%}
           <br/><br/>
