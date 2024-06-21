@@ -72,7 +72,8 @@ def juego(sistema,sistema_juego,nombre):
         pag=session["pagina"]
     else:
         pag="1"
-    return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],pag=pag,dir=app.config["DIR"],plataformas=plataformas)
+    juegos_recomendados=recomendados(juego,sistema,app.config["SISTEMAS"])
+    return render_template('juego.html',sistema_juego=sistema_juego,sistema=sistema,game=juego["lista"][0],pag=pag,dir=app.config["DIR"],plataformas=plataformas,recomendados=juegos_recomendados)
 
 @app.route('/jugar/<sistema>/<sistema_juego>/<nombre>', methods=('GET', 'POST'))
 def jugar(sistema,sistema_juego,nombre):

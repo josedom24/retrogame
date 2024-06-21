@@ -64,8 +64,23 @@
 
       
       
-    
+            <hr>
+            <h2>Recomendaciones</h2>  <br/>
+            
+            {% for r in recomendados %}
+            <div class="card" style="width: 9rem;">
+                {% if os.path.exists('./static/thumbnails/'+dir[r.plataforma]+'/Named_Boxarts/'+r.imagen+'.png') %}
+                <img src="{{url_for('static',filename='thumbnails/'+dir[r.plataforma]+'/Named_Boxarts/'+r.imagen+'.png')}}" class="card-img-top" alt="...">
+                {% else %}
+                <img src="{{url_for('static',filename='img/sin.jpg')}}" class="card-img-top" alt="...">
+                {%endif%}
+                <br/>
+             
+              </div>
+             {% endfor %}
      </div>
+    
+  
      <hr>
      {%if game and (game.plataforma.lower()=="msx" or game.plataforma.lower()=="msx2")%}
     <center>
@@ -93,7 +108,12 @@
     </div>
     {%endif%}
 
+
+  
   </div>
+ 
+
+
   {%if game and (game.plataforma.lower()=="msx" or game.plataforma.lower()=="msx2")%}
   <script>
 	 
@@ -178,6 +198,7 @@
       WMSX.start();
     }
   
-  </script>      
+  </script>    
+  
 {%endif%}
 {%- endblock %}

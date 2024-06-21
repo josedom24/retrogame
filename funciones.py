@@ -1,4 +1,4 @@
-import os,json
+import os,json,random
 from operator import itemgetter
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 GAME_ROOT = SITE_ROOT+"/games/"
@@ -88,3 +88,13 @@ def CrearImagen(lista):
         
         newlist.append(juego)
     return newlist
+
+def recomendados(juego,sistema,sistemas):
+    campos=["desarrollador","genero"]
+    c = random.choice(campos)
+    filtro={c:juego["lista"][0][c]}
+    print(filtro)
+    print(juego)
+    juegos=LeerDatos(sistema,sistemas,filtro,"busqueda")
+    print(juegos)
+    return random.sample(juegos["lista"], 12)
