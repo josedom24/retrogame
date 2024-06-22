@@ -33,7 +33,11 @@
           <br/><br/>
           <h5>Otras Plataformas:</h5>
           {% for p in plataformas%}
+          {% if sistema=="todos"%}
           <a class="btn " href="{{url_for('juego',sistema=sistema,sistema_juego=p,nombre=game.título)}}" >
+          {% else %}
+          <a class="btn " href="{{url_for('juego',sistema=p,sistema_juego=p,nombre=game.título)}}" >
+          {%endif%}
             <img style="max-width: 72px;" src="{{url_for('static',filename='img/'+p+'.png')}}" class="card-img" alt="...">
           </a>
           {%endfor%}
@@ -69,11 +73,18 @@
             
             {% for r in recomendados %}
             <div class="card" style="width: 9rem;">
+              <a href="{{url_for('juego',sistema=sistema,sistema_juego=r.plataforma,nombre=r.título)}}">
                 {% if os.path.exists('./static/thumbnails/'+dir[r.plataforma]+'/Named_Boxarts/'+r.imagen+'.png') %}
                 <img src="{{url_for('static',filename='thumbnails/'+dir[r.plataforma]+'/Named_Boxarts/'+r.imagen+'.png')}}" class="card-img-top" alt="...">
                 {% else %}
                 <img src="{{url_for('static',filename='img/sin.jpg')}}" class="card-img-top" alt="...">
                 {%endif%}
+                </a>
+                <div class="card-body">
+                
+                  <small><strong><center><p class="card-title">{{r.título}}</p></center></strong></small>
+                  <center><img style="max-width: 50px;" src="{{url_for('static',filename='img/'+r.plataforma.lower()+'.png')}}" class="card-img" alt="..."></center>
+                </div>
                 <br/>
              
               </div>

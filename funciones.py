@@ -91,10 +91,27 @@ def CrearImagen(lista):
 
 def recomendados(juego,sistema,sistemas):
     campos=["desarrollador","genero"]
-    c = random.choice(campos)
-    filtro={c:juego["lista"][0][c]}
-    print(filtro)
-    print(juego)
-    juegos=LeerDatos(sistema,sistemas,filtro,"busqueda")
-    print(juegos)
-    return random.sample(juegos["lista"], 12)
+    juegos={"lista":[]}
+    for c in campos:
+        filtro={c:juego["lista"][0][c]}
+        l=LeerDatos(sistema,sistemas,filtro,"busqueda")
+        juegos["lista"]=juegos["lista"]+l["lista"]
+    
+    
+    num=12
+    # Quito los repetidos
+    new_juegos=[]   
+    nombres=set()
+    for j in juegos["lista"]:
+        if j["título"] not in nombres and j["título"]!=juego["lista"][0]["título"]:
+            nombres.add(j["título"])
+            new_juegos.append(j)
+    # hasta el número de recomendaciones pongo uno al azar
+    while len(new_juegos)<num:
+        filtro={}
+        l=LeerDatos(sistema,sistemas,filtro,"busqueda")
+        j=random.choice(l["lista"])
+        if j["título"] not in nombres and j["título"]!=juego["lista"][0]["título"]:
+            nombres.add(j["título"])
+            new_juegos.append(j)  
+    return random.sample(new_juegos, num)
