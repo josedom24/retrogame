@@ -191,7 +191,11 @@
       {% elif game.formato=="cas"%}
       presets.push("NODISK");
       WMSX.TAPE_URL= "/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip";
-      WMSX.BASIC_ENTER = "RUN\"CAS:\"";
+      {% if "BLOAD" in game.fichero|safe %}
+        WMSX.BASIC_ENTER = "BLOAD\"CAS:\",R";
+      {%else%}
+        WMSX.BASIC_ENTER = "RUN\"CAS:\"";
+      {%endif%}
       {%else%}
       WMSX.CARTRIDGE1_URL = "/static/Juegos/roms/{{game.plataforma}}/{{game.fichero|safe}}.zip";
       {%endif%}
