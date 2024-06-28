@@ -90,7 +90,7 @@ def CrearImagen(lista):
     return newlist
 
 def recomendados(juego,sistema,sistemas):
-    campos=["desarrollador","genero"]
+    campos=["desarrollador","genero","año"]
     juegos={"lista":[]}
     for c in campos:
         filtro={c:juego["lista"][0][c]}
@@ -99,6 +99,7 @@ def recomendados(juego,sistema,sistemas):
     
     
     num=12
+    
     # Quito los repetidos
     new_juegos=[]   
     nombres=set()
@@ -106,6 +107,7 @@ def recomendados(juego,sistema,sistemas):
         if j["título"] not in nombres and j["título"]!=juego["lista"][0]["título"]:
             nombres.add(j["título"])
             new_juegos.append(j)
+    
     # hasta el número de recomendaciones pongo uno al azar
     while len(new_juegos)<num:
         filtro={}
