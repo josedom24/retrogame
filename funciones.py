@@ -98,6 +98,7 @@ def recomendados(juego,sistema,sistemas):
         juegos["lista"]=juegos["lista"]+l["lista"]
     
     
+    
     num=12
     
     # Quito los repetidos
@@ -108,6 +109,11 @@ def recomendados(juego,sistema,sistemas):
             nombres.add(j["título"])
             new_juegos.append(j)
     
+    
+    #if len(juegos["lista"])<num:
+    #    num=len(juegos["lista"])-1
+
+
     # hasta el número de recomendaciones pongo uno al azar
     while len(new_juegos)<num:
         filtro={}
