@@ -9,15 +9,25 @@
   <div class="d-flex align-items-center p-3 my-3  bg-purple rounded shadow-sm">
     <div class="row">
     <div class="lh-100">
+      
       <div class="col" style="padding-left: 100px">
+        
         {% for sist in config.SISTEMAS%}
-        <a href="{{url_for('juegos',sistema=sist)}}"><img style="max-width: 100px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
-              
+        <a href="{{url_for('juegos',sistema=sist)}}"><img style="max-width: 70px;" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>
         {% endfor %}
+        <br/>
+        {% for c in cs%}
+        <a href="{{ url_for('juegos', sistema='todos', coleccion=c['nombre']) }}">
+          <img src="{{ url_for('static', filename='img/coleccion/' + c['nombre'] + '.png') }}" style="max-width: 70px;   alt="{{ c['nombre'] }}"/></a>
+        
+        {% endfor %}
+        
       </div>
       <br/>
-      {% if sistema=="todos" %}
+      {% if sistema=="todos" and not session["coleccion"]%}
         <h1 class="mb-0 lh-100">Todos los Juegos</h1>
+      {%elif session["coleccion"]%}
+        <h1 class="mb-0 lh-100">Colección {{session["coleccion"].title()}}</h1>
       {%else%}
         <h1 class="mb-0 lh-100">Juegos {{sistema.upper()}}</h1>
       {%endif%}
@@ -28,7 +38,7 @@
     </div>
   </div>
 
-
+{%if not session["coleccion"]%}
   <form action="/sistema/{{sistema}}" method="POST" class="row row-cols-lg-auto g-3 align-items-center">
     <div class="col-12">
       <label class="floatingInput" for="inlineFormInputGroupUsername">Nombre</label>
@@ -105,6 +115,7 @@
       <button type="submit" class="btn btn-primary">Buscar</button>
     </div>
   </form>
+  {% endif%}
 <br/>
 
   <nav aria-label="...">
@@ -114,10 +125,18 @@
       <ul class="pagination">
         {%if inicio!=1%}
         <li class="page-item" aria-current="page">
+          {%if not session["coleccion"]%}
           <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=1)}}">1</a>
+          {%else%}
+          <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=1)}}">1</a>
+          {%endif%}
         </li>
         <li class="page-item" aria-current="page">
+          {%if not session["coleccion"]%}
           <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag-1)}}"><</a>
+          {%else%}
+          <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=pag-1)}}">1</a>
+          {%endif%}
         </li>
       {%endif%}        
       
@@ -125,19 +144,35 @@
       {% if p!="&nbsp;"%}
         {% if p==pag %}
           <li class="page-item active" aria-current="page">
+            {%if not session["coleccion"]%}
             <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=p)}}">{{p}}</a>
+            {%else%}
+            <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=p)}}">{{p}}</a>
+            {%endif%}
           </li>
         {% else %}
+           {%if not session["coleccion"]%}
           <li class="pe-item"><a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=p)}}">{{p}}</a></li>
+          {%else%}
+          <li class="pe-item"><a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=p)}}">{{p}}</a></li>
+          {%endif%}
         {% endif%}
         {% endif%}
         {% endfor%}
         {%if final!=total+1%}
         <li class="page-item" aria-current="page">
+          {%if not session["coleccion"]%}
           <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag+1)}}">></a>
+          {%else%}
+          <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=pag+1)}}">></a>
+          {%endif%}
         </li>
         <li class="page-item" aria-current="page">
+          {%if not session["coleccion"]%}
           <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=total)}}">{{total}}</a>
+          {%else%}
+          <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=total)}}">{{total}}</a>
+          {%endif%}
         </li>
       {%endif%}       
      
@@ -207,10 +242,18 @@
         <ul class="pagination">
           {%if inicio!=1%}
           <li class="page-item" aria-current="page">
+            {%if not session["coleccion"]%}
             <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=1)}}">1</a>
+            {%else%}
+            <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=1)}}">1</a>
+            {%endif%}
           </li>
           <li class="page-item" aria-current="page">
+            {%if not session["coleccion"]%}
             <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag-1)}}"><</a>
+            {%else%}
+            <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=pag-1)}}">1</a>
+            {%endif%}
           </li>
         {%endif%}        
         
@@ -218,19 +261,35 @@
         {% if p!="&nbsp;"%}
           {% if p==pag %}
             <li class="page-item active" aria-current="page">
+              {%if not session["coleccion"]%}
               <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=p)}}">{{p}}</a>
+              {%else%}
+              <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=p)}}">{{p}}</a>
+              {%endif%}
             </li>
           {% else %}
+             {%if not session["coleccion"]%}
             <li class="pe-item"><a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=p)}}">{{p}}</a></li>
+            {%else%}
+            <li class="pe-item"><a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=p)}}">{{p}}</a></li>
+            {%endif%}
           {% endif%}
           {% endif%}
           {% endfor%}
           {%if final!=total+1%}
           <li class="page-item" aria-current="page">
-            <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag+1)}}"></a>
+            {%if not session["coleccion"]%}
+            <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag+1)}}">></a>
+            {%else%}
+            <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=pag+1)}}">></a>
+            {%endif%}
           </li>
           <li class="page-item" aria-current="page">
+            {%if not session["coleccion"]%}
             <a class="page-link" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=total)}}">{{total}}</a>
+            {%else%}
+            <a class="page-link" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=total)}}">{{total}}</a>
+            {%endif%}
           </li>
         {%endif%}       
        

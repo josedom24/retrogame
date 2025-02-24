@@ -46,9 +46,12 @@
           <p>{{game.comentario}}</p>
           
           <a class="btn btn-primary" href="{{url_for('jugar',sistema=sistema,sistema_juego=sistema_juego,nombre=game.título)}}" >Jugar</a>
-          <a class="btn btn-primary" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag)}}">Volver</a>
-
           
+          {% if not session["coleccion"] %}
+            <a class="btn btn-primary" href="{{url_for('juegos',sistema=sistema,filtro='#',pag=pag)}}">Volver</a>
+          {% else %}
+          <a class="btn btn-primary" href="{{url_for('juegos',sistema=sistema,coleccion=session['coleccion'],pag=pag)}}">Volver</a>
+          {%endif%}
         </div>
        
           <div class="card" style="width: 22rem;">

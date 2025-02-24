@@ -14,7 +14,8 @@ NUM_ELEM=24
 with open("enlaces.json") as fichero:
     app.config["ENLACES"]=json.load(fichero)
 
-
+with open("coleccion.json") as fichero:
+    app.config["COLECCION"]=json.load(fichero)
 
 @app.context_processor
 def handle_context():
@@ -24,19 +25,54 @@ def handle_context():
 def index():
     return render_template('index.html')
 
+@app.route('/coleccion')
+def index2():
+    print(app.config["COLECCION"])
+    return render_template('index.html',coleccion=app.config["COLECCION"])
+
+
+def obtener_filtro(nombre, datos):
+    filtro = next((item["filtro"] for item in datos if item["nombre"] == nombre), None)
+    return filtro.copy()
+
 @app.route('/sistema/<sistema>', methods=('GET', 'POST'))
 @app.route('/sistema/<sistema>/<pag>', methods=('GET', 'POST'))
 @app.route('/sistema/<sistema>/<filtro>/<pag>', methods=('GET', 'POST'))
-def juegos(sistema,filtro="",pag="1"):
+@app.route('/sistema/<sistema>/coleccion/<coleccion>', methods=('GET', 'POST'))
+@app.route('/sistema/<sistema>/coleccion/<coleccion>/<pag>', methods=('GET', 'POST'))
+def juegos(sistema,filtro="",pag="1",coleccion=""):
+    
+    
+    fbusq={}
     if request.method=="POST":
         session['filtro'] = request.form
+        try:
+            del session["coleccion"]
+        except:
+            pass
+        if hasattr(request.form, "to_dict"):
+            fbusq = request.form.to_dict()
+        else:
+            fbusq = request.form
     else:
-        if 'filtro' in session:
-            if filtro:
-                request.form=session['filtro']
-            else:
-                session.pop('filtro')
-    juegos=LeerDatos(sistema,app.config["SISTEMAS"],request.form,"busqueda")
+        if coleccion!="":
+            c=obtener_filtro(coleccion,app.config["COLECCION"])     
+            sistema=c["sistema"]
+            del c["sistema"]
+            fbusq=c
+            session['filtro']=fbusq
+            session["coleccion"]=coleccion
+        else:
+            try:
+                del session["coleccion"]
+            except:
+                pass
+            if 'filtro' in session:
+                if filtro:
+                    fbusq=session['filtro']
+                else:
+                    session.pop('filtro')
+    juegos=LeerDatos(sistema,app.config["SISTEMAS"],fbusq,"busqueda")
     inicio=(int(pag)-1)*NUM_ELEM
     final=inicio+NUM_ELEM
     cantidad_juegos=len(juegos["lista"])
@@ -60,7 +96,7 @@ def juegos(sistema,filtro="",pag="1"):
         final=total+1 
     
     
-    return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form,dir=app.config["DIR"],inicio=inicio,final=final,pag=pag,total=total,cantidad_juegos=cantidad_juegos)
+    return render_template('juegos.html',sistema=sistema,juegos=juegos,filtro=request.form,dir=app.config["DIR"],inicio=inicio,final=final,pag=pag,total=total,cantidad_juegos=cantidad_juegos,coleccion=coleccion,cs=app.config["COLECCION"])
 
 @app.route('/juego/<sistema>/<sistema_juego>/<nombre>', methods=('GET', 'POST'))
 def juego(sistema,sistema_juego,nombre):

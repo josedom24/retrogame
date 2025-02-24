@@ -18,26 +18,48 @@
       
     </div>
    </div>
-   
-   {% for sistemas in config.SISTEMAS | batch(3, '&nbsp;') %}
+   {%- if not coleccion %}
+   {% for sistemas in config.SISTEMAS | batch(4, '&nbsp;') %}
     <div class="album py-5 bg-light">
-      <div class="container">
-       <div class="row">
-        {%for sist in sistemas%} 
-      
-          <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                <a href="{{url_for('juegos',sistema=sist)}}"><img class="img-thumbnail" src="{{url_for('static', filename='img/'+sist+'.png')}}"/></a>      
-                
+        <div class="container">
+            <div class="row justify-content-center">
+                {% for sist in sistemas %} 
+                    <div class="col-md-3 d-flex align-items-stretch">
+                        <div class="card mb-3 shadow-sm text-center">
+                            <a href="{{ url_for('juegos', sistema=sist) }}">
+                                <img class="img-fluid mx-auto d-block" 
+                                     src="{{ url_for('static', filename='img/' + sist + '.png') }}" 
+                                     style="width: 100%; height: 200px; object-fit: contain;" 
+                                     alt="{{ sist }}"/>
+                            </a>
+                        </div>
+                    </div>   
+                {% endfor %}  
             </div>
-          </div>   
-        {%endfor%}  
-      </div>
-        
-  
-  
+        </div>
+    </div>
+{% endfor %}
+  {%- else %}
+  <div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            {% for c in coleccion %} 
+                <div class="col-md-3 d-flex align-items-stretch">
+                    <div class="card mb-3 shadow-sm text-center">
+                        <a href="{{ url_for('juegos', sistema='todos', coleccion=c['nombre']) }}">
+                            <img class="img-fluid mx-auto d-block" 
+                                 src="{{ url_for('static', filename='img/coleccion/' + c['nombre'] + '.png') }}" 
+                                 style="width: 100%; height: 200px; object-fit: contain;" 
+                                 alt="{{ c['nombre'] }}"/>
+                        </a>
+                    </div>
+                </div>   
+            {% endfor %} 
+        </div>
+    </div>
+</div>
+{%- endif %}
   </div>
-  </div>
-  {%endfor%}
+  
 
 {%- endblock %}
