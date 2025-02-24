@@ -1,0 +1,14 @@
+[
+    {"nombre":"konami","filtro":{"sistema":"msx","título": "", "desarrollador": "Konami", "genero": "", "año": "", "rating": ""}},
+    {"nombre":"taito","filtro":{"sistema":"todos","título": "", "desarrollador": "Taito", "genero": "", "año": "", "rating": ""}},
+    {"nombre":"Topo Soft","filtro":{"sistema":"todos","título": "", "desarrollador": "Topo Soft", "genero": "", "año": "", "rating": ""}},
+    {"nombre":"dinamic","filtro":{"sistema":"todos","título": "", "desarrollador": "Dinamic Software", "genero": "", "año": "", "rating": ""}},
+    {"nombre":"Indiana Jones","filtro":{"sistema":"todos","título": "Indiana Jones", "desarrollador": "", "genero": "", "año": "", "rating": ""}},
+    {"nombre":"arkanoid","filtro":{"sistema":"todos","título": "Arkanoid", "desarrollador": "", "genero": "", "año": "", "rating": ""}},
+    {"nombre":"Mario Bros","filtro":{"sistema":"todos","título": "Mario Bros", "desarrollador": "", "genero": "", "año": "", "rating": ""}},
+    {"nombre":"Donkey Kong","filtro":{"sistema":"todos","título": "Donkey Kong", "desarrollador": "", "genero": "", "año": "", "rating": ""}},
+    {"nombre":"Batman","filtro":{"sistema":"todos","título": "Batman", "desarrollador": "", "genero": "", "año": "", "rating": ""}},
+    {"nombre":"PacMan","filtro":{"sistema":"todos","título": "Pac-", "desarrollador": "", "genero": "", "año": "", "rating": ""}}
+    
+
+]
