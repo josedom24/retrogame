@@ -7,8 +7,8 @@ import subprocess
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SISTEMAS']=["todos","msx","msx2","spectrum","amstrad","c64","amiga","nes","snes","sms","mame","neogeo"]
-app.config['DIR']={"sms":"Sega - Master System - Mark III","msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","spectrum":"Sinclair - ZX Spectrum","amstrad":"Amstrad - CPC","amiga":"Commodore - Amiga","mame":"MAME","nes":"Nintendo - Nintendo Entertainment System","snes":"Nintendo - Super Nintendo Entertainment System","neogeo":"FBNeo - Arcade Games","c64":"Commodore - 64"}
+app.config['SISTEMAS']=["todos","msx","msx2","spectrum","amstrad","c64","amiga","nes","snes","sms","mame","neogeo","model3"]
+app.config['DIR']={"model3":"Sega - Model3","sms":"Sega - Master System - Mark III","msx":"Microsoft - MSX","msx2":"Microsoft - MSX2","spectrum":"Sinclair - ZX Spectrum","amstrad":"Amstrad - CPC","amiga":"Commodore - Amiga","mame":"MAME","nes":"Nintendo - Nintendo Entertainment System","snes":"Nintendo - Super Nintendo Entertainment System","neogeo":"FBNeo - Arcade Games","c64":"Commodore - 64"}
 NUM_ELEM=24
 
 with open("enlaces.json") as fichero:
@@ -113,21 +113,34 @@ def juego(sistema,sistema_juego,nombre):
 
 @app.route('/jugar/<sistema>/<sistema_juego>/<nombre>', methods=('GET', 'POST'))
 def jugar(sistema,sistema_juego,nombre):
-    juego=""
-    instruccion=""
-    playlist="/media/jose/copia/Juegos/playlists/"+app.config['DIR'][sistema_juego]+".lpl"
-    with open(playlist) as fichero:
-        datos=json.load(fichero)
-    core=datos["default_core_path"]
-    juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre},"cuerpo")
-    j=[item for item in datos["items"] if item['label'] == juego["lista"][0]["fichero"]][0]
-    if j["core_path"]!="DETECT":
-        core=j["core_path"]
-    instruccion="flatpak run --filesystem=host org.libretro.RetroArch  -L "+core+ ' "'+j["path"]+'"'
-    try:
-        subprocess.call(instruccion,shell=True)
-    except:
-        pass
+    
+    if sistema_juego=="model3":
+        juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre},"cuerpo")
+        
+        path="/media/jose/copia/Juegos/roms/Sega - Model3/"+juego["lista"][0]["fichero"]+".zip"
+        print(path)
+        try:
+            subprocess.call('flatpak run com.supermodel3.Supermodel -res=2560,1440 -fullscreen "'+path+'"',shell=True)
+        except:
+            pass
+    else:
+
+        juego=""
+        instruccion=""
+
+        playlist="/media/jose/copia/Juegos/playlists/"+app.config['DIR'][sistema_juego]+".lpl"
+        with open(playlist) as fichero:
+            datos=json.load(fichero)
+        core=datos["default_core_path"]
+        juego=LeerDatos(sistema_juego,app.config["SISTEMAS"],{"título":nombre},"cuerpo")
+        j=[item for item in datos["items"] if item['label'] == juego["lista"][0]["fichero"]][0]
+        if j["core_path"]!="DETECT":
+            core=j["core_path"]
+        instruccion="flatpak run --filesystem=host org.libretro.RetroArch  -L "+core+ ' "'+j["path"]+'"'
+        try:
+            subprocess.call(instruccion,shell=True)
+        except:
+            pass
     return redirect(url_for('juego',sistema=sistema,sistema_juego=sistema_juego,nombre=nombre))    
 
 

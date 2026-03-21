@@ -109,7 +109,10 @@ def recomendados(juego,sistema,sistemas):
             nombres.add(j["título"])
             new_juegos.append(j)
     
-    
+    if len(new_juegos)>12:
+        num=12
+    else:
+        num=len(new_juegos)
     #if len(juegos["lista"])<num:
     #    num=len(juegos["lista"])-1
 
